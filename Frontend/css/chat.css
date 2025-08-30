@@ -1,0 +1,84 @@
+/* Chat/Messenger Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0d0f16;
+    color: white;
+    margin: 0;
+}
+
+.chat-container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #192133;
+    border-radius: 8px;
+}
+
+h2 {
+    text-align: center;
+}
+
+.user-list {
+    margin-bottom: 20px;
+}
+
+.user-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.user-item {
+    padding: 10px;
+    background-color: #2b3f73;
+    margin: 5px 0;
+    cursor: pointer;
+    border-radius: 5px;
+    color: white;
+}
+
+.user-item:hover {
+    background-color: #3c5ca5;
+}
+
+.chat-box {
+    display: none;
+    margin-top: 30px;
+}
+
+#messages {
+    height: 300px;
+    overflow-y: scroll;
+    margin-bottom: 10px;
+}
+
+.message {
+    background-color: #2b3f73;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.timestamp {
+    font-size: 10px;
+    color: #ccc;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #3c5ca5;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #4c6eb8;
+}

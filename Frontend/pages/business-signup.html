@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Business Account - BiniOrbit</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Boxicons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="../css/main.css">
+    
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--background); 
+            margin: 0; 
+            padding: 0; 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        
+        .signup-container { 
+            display: flex; 
+            width: 1300px; 
+            min-height: 700px; 
+            background: var(--background); 
+            border-radius: var(--radius); 
+            overflow: hidden; 
+            box-shadow: var(--shadow); 
+            border: 1px solid var(--border); 
+        }
+        
+        .image-section { 
+            width: 50%; 
+            background: linear-gradient(135deg, var(--primary) 0%, var(--muted-foreground) 100%); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        
+        .image-section::before { 
+            content: ''; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0; 
+            background: url('../images/login pic.jpg') center/cover; 
+            opacity: 0.3; 
+        }
+        
+        .image-content { 
+            position: relative; 
+            z-index: 1; 
+            text-align: center; 
+            color: var(--primary-foreground); 
+            padding: 2rem; 
+        }
+        
+        .image-content h2 { 
+            font-size: 2.5rem; 
+            font-weight: 700; 
+            margin-bottom: 1rem; 
+        }
+        
+        .image-content p { 
+            font-size: 1.1rem; 
+            opacity: 0.9; 
+            line-height: 1.6; 
+        }
+        
+        .form-section { 
+            width: 50%; 
+            padding: 2rem 2.5rem; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: stretch; 
+            height: 100%; 
+            overflow-y: auto; 
+        }
+        
+        .form-header { 
+            text-align: center; 
+            margin-bottom: 2.5rem; 
+        }
+        
+        .form-header h1 { 
+            font-size: 2rem; 
+            font-weight: 700; 
+            color: var(--foreground); 
+            margin-bottom: 0.5rem; 
+        }
+        
+        .form-header p { 
+            color: var(--muted-foreground); 
+            font-size: 1rem; 
+        }
+        
+        .logo-section { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 0.5rem; 
+            margin-bottom: 1rem; 
+        }
+        
+        .logo-section img { 
+            width: 32px; 
+            height: 32px; 
+        }
+        
+        .logo-section a { 
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            color: var(--foreground); 
+            text-decoration: none; 
+        }
+        
+        .form-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 0.75rem 1rem; 
+            margin-bottom: 2rem; 
+            width: 100%; 
+        }
+        
+        .form-group { 
+            margin-bottom: 0.5rem; 
+        }
+        
+        .form-group.full-width { 
+            grid-column: 1 / -1; 
+        }
+        
+        .form-label { 
+            display: block; 
+            font-size: 0.875rem; 
+            font-weight: 500; 
+            color: var(--foreground); 
+            margin-bottom: 0.5rem; 
+        }
+        
+        .form-input, .form-select { 
+            width: 100%; 
+            box-sizing: border-box; 
+            padding: 0.75rem 1rem; 
+            border: 1.5px solid var(--border); 
+            border-radius: var(--radius); 
+            font-size: 1rem; 
+            background: var(--background); 
+            color: var(--foreground); 
+            transition: all 0.2s ease; 
+            font-family: inherit; 
+        }
+        
+        .form-input:focus, .form-select:focus { 
+            outline: none; 
+            border-color: var(--primary); 
+            box-shadow: 0 0 0 3px rgba(43, 44, 48, 0.1); 
+        }
+        
+        .form-input::placeholder { 
+            color: var(--muted-foreground); 
+        }
+        
+        .submit-btn { 
+            width: 100%; 
+            padding: 0.75rem 1.5rem; 
+            background: var(--primary); 
+            color: var(--primary-foreground); 
+            border: none; 
+            border-radius: var(--radius); 
+            font-size: 1rem; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            margin-top: 1rem; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .submit-btn:hover { 
+            background: var(--foreground); 
+            transform: translateY(-1px); 
+        }
+        
+        .submit-btn:active { 
+            transform: translateY(0); 
+        }
+        
+        .form-footer { 
+            text-align: center; 
+            margin-top: 2rem; 
+        }
+        
+        .form-footer p { 
+            color: var(--muted-foreground); 
+            font-size: 0.875rem; 
+            margin-bottom: 1rem; 
+        }
+        
+        .form-footer a { 
+            color: var(--primary); 
+            text-decoration: none; 
+            font-weight: 500; 
+        }
+        
+        .form-footer a:hover { 
+            text-decoration: underline; 
+        }
+        
+        .alert { 
+            padding: 0.75rem 1rem; 
+            border-radius: var(--radius); 
+            margin-bottom: 1.5rem; 
+            font-size: 0.875rem; 
+            display: none;
+        }
+        
+        .alert-danger { 
+            background: var(--error-bg); 
+            color: var(--error); 
+            border: 1px solid var(--error); 
+        }
+        
+        .alert-success {
+            background: var(--success-bg);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        
+        .section-title {
+            grid-column: 1 / -1;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 1rem 0 0.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        @media (max-width: 1200px) { 
+            .signup-container { 
+                flex-direction: column; 
+                margin: 1rem; 
+                min-width: unset; 
+                min-height: unset; 
+                width: 100%; 
+                height: auto; 
+            } 
+            .image-section { 
+                min-height: 200px; 
+                width: 100%; 
+            } 
+            .form-section { 
+                width: 100%; 
+                padding: 2rem; 
+                max-width: 100vw; 
+            } 
+            .form-grid { 
+                grid-template-columns: 1fr; 
+            } 
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <!-- Image Section -->
+        <div class="image-section">
+            <div class="image-content">
+                <h2>Join BiniOrbit</h2>
+                <p>Create your business account and start connecting with investors to scale your business to new heights.</p>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <div class="form-section">
+            <div class="form-header">
+                <div class="logo-section">
+                    <img src="../images/BiniOrbit.png" alt="BiniOrbit Logo">
+                    <a href="index.html">BiniOrbit</a>
+                </div>
+                <h1>Create Business Account</h1>
+                <p>Fill in your details to get started</p>
+            </div>
+
+            <div class="alert alert-danger" id="errorAlert">
+                <!-- Error messages will appear here -->
+            </div>
+            <div class="alert alert-success" id="successAlert">
+                <!-- Success messages will appear here -->
+            </div>
+
+            <form id="businessSignupForm" enctype="multipart/form-data">
+                <div class="form-grid">
+                    <!-- Owner Info Section -->
+                    <div class="section-title">Owner Information</div>
+                    
+                    <div class="form-group">
+                        <label for="first-name" class="form-label">First Name (Owner)</label>
+                        <input type="text" id="first-name" name="First_Name" class="form-input" placeholder="Enter first name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name" class="form-label">Last Name (Owner)</label>
+                        <input type="text" id="last-name" name="Last_Name" class="form-input" placeholder="Enter last name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender" class="form-label">Gender (Owner)</label>
+                        <select id="gender" name="Gender" class="form-select" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="national-id" class="form-label">National ID (Owner)</label>
+                        <input type="text" id="national-id" name="NID" class="form-input" placeholder="Enter ID number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="form-label">Address (Owner)</label>
+                        <input type="text" id="address" name="Address" class="form-input" placeholder="Enter address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mobile-number" class="form-label">Mobile Number (Owner)</label>
+                        <input type="tel" id="mobile-number" name="Mobile" class="form-input" placeholder="Enter mobile number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dob" class="form-label">Date of Birth (Owner)</label>
+                        <input type="date" id="dob" name="DOB" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" name="Password" class="form-input" placeholder="Enter password" required minlength="6">
+                    </div>
+                    
+                    <!-- Business Info Section -->
+                    <div class="section-title">Business Information</div>
+                    
+                    <div class="form-group">
+                        <label for="business-name" class="form-label">Business Name</label>
+                        <input type="text" id="business-name" name="Business_name" class="form-input" placeholder="Enter business name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="business-registration" class="form-label">Business Registration Number</label>
+                        <input type="text" id="business-registration" name="business_regNo" class="form-input" placeholder="Enter registration number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="BusinessType" class="form-label">Business Type</label>
+                        <select id="BusinessType" name="business_type" class="form-select" required>
+                            <option value="">Choose Business Type</option>
+                            <option value="Startup">Startup</option>
+                            <option value="Partnership">Partnership</option>
+                            <option value="Corporation">Corporation</option>
+                            <option value="Limited Liability Company">Limited Liability Company</option>
+                            <option value="Cooperative">Cooperative</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="business-address" class="form-label">Business Address</label>
+                        <input type="text" id="business-address" name="Business_address" class="form-input" placeholder="Enter business address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tin-number" class="form-label">TIN Number</label>
+                        <input type="text" id="tin-number" name="TIN_number" class="form-input" placeholder="Enter TIN number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vat-registration" class="form-label">VAT Registration Number</label>
+                        <input type="text" id="vat-registration" name="VAT_regNo" class="form-input" placeholder="Enter VAT number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="business-phone" class="form-label">Business Phone Number</label>
+                        <input type="tel" id="business-phone" name="business_phone" class="form-input" placeholder="Enter phone number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="business-email" class="form-label">Official Business Email</label>
+                        <input type="email" id="business-email" name="business_email" class="form-input" placeholder="Enter business email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pr-email" class="form-label">PR Email (Optional)</label>
+                        <input type="email" id="pr-email" name="pr_email" class="form-input" placeholder="Enter PR email (optional)">
+                    </div>
+                    
+                    <!-- Document Upload Section -->
+                    <div class="section-title">Required Documents</div>
+                    
+                    <div class="form-group full-width">
+                        <label class="form-label">Bank Certificate</label>
+                        <input type="file" name="bank_certificate" class="form-input" accept=".pdf,.jpg,.jpeg,.png" required />
+                        <small style="color: var(--muted-foreground); font-size: 0.75rem;">Accepted formats: PDF, JPG, PNG (Max 5MB)</small>
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Business License</label>
+                        <input type="file" name="license" class="form-input" accept=".pdf,.jpg,.jpeg,.png" required />
+                        <small style="color: var(--muted-foreground); font-size: 0.75rem;">Accepted formats: PDF, JPG, PNG (Max 5MB)</small>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class='bx bx-user-plus'></i>
+                    Create Account
+                </button>
+            </form>
+
+            <div class="form-footer">
+                <p>By creating an account, you agree to our <a href="terms.html">Terms and Conditions</a></p>
+                <p>Already have an account? <a href="login.html">Sign in</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../js/theme.js"></script>
+    <script src="../js/signup.js"></script>
+    
+    <script>
+        document.getElementById('businessSignupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Basic validation
+            if (!validateBusinessForm(data)) {
+                return;
+            }
+            
+            // Mock signup process
+            showSuccess('Business account created successfully! Redirecting to login...');
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 2000);
+        });
+        
+        function validateBusinessForm(data) {
+            // Check required fields
+            const requiredFields = [
+                'First_Name', 'Last_Name', 'Gender', 'NID', 'Address', 'Mobile', 'DOB', 'Password',
+                'Business_name', 'business_regNo', 'business_type', 'Business_address', 
+                'TIN_number', 'VAT_regNo', 'business_phone', 'business_email'
+            ];
+            
+            for (let field of requiredFields) {
+                if (!data[field] || data[field].trim() === '') {
+                    showError(`Please fill in the ${field.replace(/_/g, ' ').toLowerCase()} field`);
+                    return false;
+                }
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(data.business_email)) {
+                showError('Please enter a valid business email address');
+                return false;
+            }
+            
+            // Password validation
+            if (data.Password.length < 6) {
+                showError('Password must be at least 6 characters long');
+                return false;
+            }
+            
+            // Age validation (owner must be 18+)
+            const birthDate = new Date(data.DOB);
+            const today = new Date();
+            const age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            
+            if (age < 18 || (age === 18 && monthDiff < 0)) {
+                showError('Business owner must be at least 18 years old');
+                return false;
+            }
+            
+            // File validation
+            const bankCertificate = document.querySelector('input[name="bank_certificate"]').files[0];
+            const license = document.querySelector('input[name="license"]').files[0];
+            
+            if (!bankCertificate) {
+                showError('Please upload a bank certificate');
+                return false;
+            }
+            
+            if (!license) {
+                showError('Please upload a business license');
+                return false;
+            }
+            
+            // File size validation (5MB max)
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            if (bankCertificate.size > maxSize) {
+                showError('Bank certificate file size must be less than 5MB');
+                return false;
+            }
+            
+            if (license.size > maxSize) {
+                showError('License file size must be less than 5MB');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function showError(message) {
+            const errorAlert = document.getElementById('errorAlert');
+            const successAlert = document.getElementById('successAlert');
+            
+            successAlert.style.display = 'none';
+            errorAlert.textContent = message;
+            errorAlert.style.display = 'block';
+            
+            // Scroll to top to show error
+            document.querySelector('.form-section').scrollTop = 0;
+            
+            // Hide error after 5 seconds
+            setTimeout(() => {
+                errorAlert.style.display = 'none';
+            }, 5000);
+        }
+        
+        function showSuccess(message) {
+            const errorAlert = document.getElementById('errorAlert');
+            const successAlert = document.getElementById('successAlert');
+            
+            errorAlert.style.display = 'none';
+            successAlert.textContent = message;
+            successAlert.style.display = 'block';
+            
+            // Scroll to top to show success
+            document.querySelector('.form-section').scrollTop = 0;
+        }
+    </script>
+</body>
+</html>
