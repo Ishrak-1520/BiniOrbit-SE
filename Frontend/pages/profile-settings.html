@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Settings - BiniOrbit</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Boxicons -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/main.css" />
+  
+  <!-- Theme System -->
+  <script src="../js/theme.js"></script>
+
+  <style>
+    /* Profile Settings specific styles */
+    .settings-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .settings-header {
+      margin-bottom: 2rem;
+    }
+
+    .settings-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--foreground);
+      margin-bottom: 0.5rem;
+    }
+
+    .settings-subtitle {
+      color: var(--muted-foreground);
+      font-size: 1rem;
+    }
+
+    .settings-card {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .settings-section {
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .settings-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .avatar-upload {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .avatar-preview {
+      position: relative;
+    }
+
+    .avatar-preview img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--border);
+    }
+
+    .avatar-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--foreground);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-input, .form-textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      background: var(--background);
+      color: var(--foreground);
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(43, 44, 48, 0.1);
+    }
+
+    .form-input:disabled {
+      background: var(--muted);
+      color: var(--muted-foreground);
+      cursor: not-allowed;
+    }
+
+    .form-hint {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      margin-top: 0.25rem;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 1.25rem;
+      height: 1.25rem;
+      accent-color: var(--primary);
+    }
+
+    .checkbox-group label {
+      font-size: 0.875rem;
+      color: var(--foreground);
+      cursor: pointer;
+    }
+
+    .danger-zone {
+      background: var(--error-bg);
+      border: 1px solid var(--error);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .danger-zone h3 {
+      color: var(--error);
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .danger-zone p {
+      color: var(--muted-foreground);
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    .btn-primary:hover {
+      background: var(--foreground);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--muted);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--border);
+    }
+
+    .btn-danger {
+      background: var(--error);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .alert {
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius);
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+    }
+
+    .alert-success {
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid var(--success);
+    }
+
+    .alert-error {
+      background: var(--error-bg);
+      color: var(--error);
+      border: 1px solid var(--error);
+    }
+
+    @media (max-width: 768px) {
+      .settings-card {
+        padding: 1.5rem;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .avatar-upload {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .form-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Sidebar -->
+  <div id="sidebar-container"></div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Search Bar -->
+    <div id="search-bar-container"></div>
+    
+    <div class="settings-container">
+      <div class="settings-header">
+        <h1 class="settings-title">Profile Settings</h1>
+        <p class="settings-subtitle">Manage your account settings and preferences</p>
+      </div>
+      
+      <div id="alert-container"></div>
+      
+      <div class="settings-card">
+        <form id="settingsForm">
+          <div class="settings-section">
+            <h2 class="section-title">
+              <i class='bx bx-user'></i>
+              Profile Information
+            </h2>
+            
+            <div class="avatar-upload">
+              <div class="avatar-preview">
+                <img src="../images/Profile_picture_placeholder.jpg" alt="Profile photo" id="avatarPreview">
+              </div>
+              <div class="avatar-actions">
+                <button type="button" class="btn btn-secondary" onclick="uploadPhoto()">
+                  <i class='bx bx-upload'></i>
+                  Upload new photo
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="removePhoto()">
+                  <i class='bx bx-trash'></i>
+                  Remove photo
+                </button>
+                <input type="file" id="photoInput" accept="image/*" style="display: none;">
+              </div>
+            </div>
+            
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="first_name" class="form-label">First Name</label>
+                <input type="text" id="first_name" name="first_name" class="form-input" value="John">
+              </div>
+              
+              <div class="form-group">
+                <label for="last_name" class="form-label">Last Name</label>
+                <input type="text" id="last_name" name="last_name" class="form-input" value="Doe">
+              </div>
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="bio" class="form-label">Profile Description (max 250 characters)</label>
+              <textarea id="bio" name="bio" class="form-textarea" maxlength="250" rows="3" oninput="updateBioCounter()" style="resize: vertical;">Passionate investor focused on innovative tech startups. Always looking for the next big opportunity to make a positive impact.</textarea>
+              <div class="form-hint"><span id="bio-counter">0</span>/250 characters</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="email" class="form-label">Email Address</label>
+              <input type="email" id="email" class="form-input" value="john.doe@example.com" disabled>
+              <div class="form-hint">Your email address is used for login and cannot be changed</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="mobile" class="form-label">Mobile Number</label>
+              <input type="text" id="mobile" name="mobile" class="form-input" value="+1 (555) 123-4567">
+            </div>
+            
+            <div class="form-group">
+              <label for="address" class="form-label">Address</label>
+              <textarea id="address" name="address" class="form-textarea" rows="3">123 Main Street, New York, NY 10001</textarea>
+            </div>
+          </div>
+          
+          <div class="settings-section">
+            <h2 class="section-title">
+              <i class='bx bx-lock-alt'></i>
+              Password
+            </h2>
+            
+            <div class="form-group">
+              <label for="current-password" class="form-label">Current Password</label>
+              <input type="password" id="current-password" class="form-input" placeholder="Enter current password">
+            </div>
+            
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="new-password" class="form-label">New Password</label>
+                <input type="password" id="new-password" class="form-input" placeholder="Enter new password">
+              </div>
+              
+              <div class="form-group">
+                <label for="confirm-password" class="form-label">Confirm New Password</label>
+                <input type="password" id="confirm-password" class="form-input" placeholder="Confirm new password">
+              </div>
+            </div>
+          </div>
+          
+          <div class="settings-section">
+            <h2 class="section-title">
+              <i class='bx bx-bell'></i>
+              Notifications
+            </h2>
+            
+            <div class="checkbox-group">
+              <input type="checkbox" id="message-notifications" checked>
+              <label for="message-notifications">Email me when someone messages me</label>
+            </div>
+            
+            <div class="checkbox-group">
+              <input type="checkbox" id="comment-notifications" checked>
+              <label for="comment-notifications">Email me when someone comments on my post</label>
+            </div>
+            
+            <div class="checkbox-group">
+              <input type="checkbox" id="update-notifications">
+              <label for="update-notifications">Email me about platform updates</label>
+            </div>
+          </div>
+          
+          <div class="danger-zone">
+            <h3>
+              <i class='bx bx-error-circle'></i>
+              Danger Zone
+            </h3>
+            <p>Once you delete your account, there is no going back. Please be certain.</p>
+            <button type="button" class="btn btn-danger" onclick="confirmDeleteAccount()">
+              <i class='bx bx-trash'></i>
+              Delete Account
+            </button>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" onclick="resetForm()">Cancel</button>
+            <button type="submit" class="btn btn-primary">
+              <i class='bx bx-save'></i>
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- JavaScript -->
+  <script src="../js/chat.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/search.js"></script>
+
+  <script>
+    // Load components
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../components/sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('sidebar-container').innerHTML = html;
+        });
+
+      // Load search bar
+      fetch('../components/search-bar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('search-bar-container').innerHTML = html;
+        });
+
+      // Initialize form
+      updateBioCounter();
+      
+      // Form submission
+      document.getElementById('settingsForm').addEventListener('submit', handleFormSubmit);
+    });
+
+    function updateBioCounter() {
+      const bio = document.getElementById('bio');
+      const counter = document.getElementById('bio-counter');
+      counter.textContent = bio.value.trim().length;
+    }
+
+    function uploadPhoto() {
+      document.getElementById('photoInput').click();
+    }
+
+    function removePhoto() {
+      document.getElementById('avatarPreview').src = '../images/Profile_picture_placeholder.jpg';
+      document.getElementById('photoInput').value = '';
+    }
+
+    // Handle photo upload
+    document.getElementById('photoInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('avatarPreview').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      
+      // Validate passwords if changing
+      const currentPassword = document.getElementById('current-password').value;
+      const newPassword = document.getElementById('new-password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+      
+      if (newPassword && newPassword !== confirmPassword) {
+        showAlert('Passwords do not match', 'error');
+        return;
+      }
+      
+      if (newPassword && !currentPassword) {
+        showAlert('Please enter your current password to change it', 'error');
+        return;
+      }
+      
+      // Mock form submission
+      setTimeout(() => {
+        showAlert('Profile updated successfully!', 'success');
+        
+        // Clear password fields
+        document.getElementById('current-password').value = '';
+        document.getElementById('new-password').value = '';
+        document.getElementById('confirm-password').value = '';
+      }, 1000);
+    }
+
+    function resetForm() {
+      if (confirm('Are you sure you want to discard your changes?')) {
+        document.getElementById('settingsForm').reset();
+        updateBioCounter();
+        document.getElementById('avatarPreview').src = '../images/Profile_picture_placeholder.jpg';
+      }
+    }
+
+    function confirmDeleteAccount() {
+      if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+        if (confirm('This will permanently delete all your data. Are you absolutely sure?')) {
+          // Mock account deletion
+          alert('Account deletion request submitted. You will receive a confirmation email.');
+        }
+      }
+    }
+
+    function showAlert(message, type) {
+      const alertContainer = document.getElementById('alert-container');
+      const alert = document.createElement('div');
+      alert.className = `alert alert-${type}`;
+      alert.innerHTML = `
+        <i class='bx ${type === 'success' ? 'bx-check-circle' : 'bx-error-circle'}'></i>
+        ${message}
+      `;
+      
+      alertContainer.innerHTML = '';
+      alertContainer.appendChild(alert);
+      
+      // Auto-remove after 5 seconds
+      setTimeout(() => {
+        alert.remove();
+      }, 5000);
+    }
+  </script>
+</body>
+</html>

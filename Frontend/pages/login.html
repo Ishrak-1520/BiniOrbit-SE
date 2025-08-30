@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - BiniOrbit</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Boxicons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="../css/main.css">
+    
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--background); 
+            margin: 0; 
+            padding: 0; 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        
+        .login-container { 
+            display: flex; 
+            width: 100%; 
+            max-width: 900px; 
+            background: var(--background); 
+            border-radius: var(--radius); 
+            overflow: hidden; 
+            box-shadow: var(--shadow); 
+            border: 1px solid var(--border); 
+        }
+        
+        .image-section { 
+            flex: 1; 
+            background: linear-gradient(135deg, var(--primary) 0%, var(--muted-foreground) 100%); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        
+        .image-section::before { 
+            content: ''; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0; 
+            background: url('../images/investment.jpg') center/cover; 
+            opacity: 0.3; 
+        }
+        
+        .image-content { 
+            position: relative; 
+            z-index: 1; 
+            text-align: center; 
+            color: var(--primary-foreground); 
+            padding: 2rem; 
+        }
+        
+        .image-content h2 { 
+            font-size: 2.2rem; 
+            font-weight: 700; 
+            margin-bottom: 1rem; 
+        }
+        
+        .image-content p { 
+            font-size: 1.1rem; 
+            opacity: 0.9; 
+            line-height: 1.6; 
+        }
+        
+        .form-section { 
+            flex: 1; 
+            padding: 3rem; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            max-height: 100vh; 
+            overflow-y: auto; 
+        }
+        
+        .form-header { 
+            text-align: center; 
+            margin-bottom: 2.5rem; 
+        }
+        
+        .form-header h1 { 
+            font-size: 2rem; 
+            font-weight: 700; 
+            color: var(--foreground); 
+            margin-bottom: 0.5rem; 
+        }
+        
+        .form-header p { 
+            color: var(--muted-foreground); 
+            font-size: 1rem; 
+        }
+        
+        .logo-section { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 0.5rem; 
+            margin-bottom: 1rem; 
+        }
+        
+        .logo-section img { 
+            width: 32px; 
+            height: 32px; 
+        }
+        
+        .logo-section a { 
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            color: var(--foreground); 
+            text-decoration: none; 
+        }
+        
+        .form-group { 
+            margin-bottom: 1.5rem; 
+        }
+        
+        .form-label { 
+            display: block; 
+            font-size: 0.875rem; 
+            font-weight: 500; 
+            color: var(--foreground); 
+            margin-bottom: 0.5rem; 
+        }
+        
+        .form-input { 
+            width: 100%; 
+            padding: 0.75rem 1rem; 
+            border: 1.5px solid var(--border); 
+            border-radius: var(--radius); 
+            font-size: 1rem; 
+            background: var(--background); 
+            color: var(--foreground); 
+            transition: all 0.2s ease; 
+            font-family: inherit; 
+        }
+        
+        .form-input:focus { 
+            outline: none; 
+            border-color: var(--primary); 
+            box-shadow: 0 0 0 3px rgba(43, 44, 48, 0.1); 
+        }
+        
+        .form-input::placeholder { 
+            color: var(--muted-foreground); 
+        }
+        
+        .submit-btn { 
+            width: 100%; 
+            padding: 0.75rem 1.5rem; 
+            background: var(--primary); 
+            color: var(--primary-foreground); 
+            border: none; 
+            border-radius: var(--radius); 
+            font-size: 1rem; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            margin-top: 1rem; 
+        }
+        
+        .submit-btn:hover { 
+            background: var(--foreground); 
+            transform: translateY(-1px); 
+        }
+        
+        .submit-btn:active { 
+            transform: translateY(0); 
+        }
+        
+        .form-footer { 
+            text-align: center; 
+            margin-top: 2rem; 
+        }
+        
+        .form-footer p { 
+            color: var(--muted-foreground); 
+            font-size: 0.875rem; 
+            margin-bottom: 1rem; 
+        }
+        
+        .form-footer a { 
+            color: var(--primary); 
+            text-decoration: none; 
+            font-weight: 500; 
+        }
+        
+        .form-footer a:hover { 
+            text-decoration: underline; 
+        }
+        
+        .error-message {
+            margin-top: 1rem; 
+            color: var(--error); 
+            text-align: center;
+            padding: 0.75rem;
+            background: var(--error-bg);
+            border: 1px solid var(--error);
+            border-radius: var(--radius);
+            display: none;
+        }
+        
+        @media (max-width: 768px) { 
+            .login-container { 
+                flex-direction: column; 
+                margin: 1rem; 
+            } 
+            .image-section { 
+                min-height: 200px; 
+            } 
+            .form-section { 
+                padding: 2rem; 
+            } 
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="image-section">
+            <div class="image-content">
+                <div class="logo-section">
+                    <img src="../images/BiniOrbit.png" alt="BiniOrbit Logo">
+                    <a href="index.html">BiniOrbit</a>
+                </div>
+                <h2>Welcome Back!</h2>
+                <p>Connect, invest, and grow your business network.<br>Log in to continue your journey.</p>
+            </div>
+        </div>
+        <div class="form-section">
+            <div class="form-header">
+                <h1>Login to BiniOrbit</h1>
+                <p>Enter your credentials to access your account.</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="Email" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" name="password" class="form-input" placeholder="Password" required>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+                <div class="error-message" id="errorMessage">
+                    <!-- Error messages will appear here -->
+                </div>
+            </form>
+            <div class="form-footer">
+                <p>Don't have an account? <a href="investor-signup.html">Sign up as Investor</a> or <a href="business-signup.html">Business</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../js/theme.js"></script>
+    <script src="../js/login.js"></script>
+    
+    <script>
+        // Enhanced login form handling
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('errorMessage');
+            
+            // Basic validation
+            if (!email || !password) {
+                showError('Please fill in all fields');
+                return;
+            }
+            
+            // Mock login logic (replace with actual API call)
+            if (email === 'demo@biniorbit.com' && password === 'demo123') {
+                // Simulate successful login
+                localStorage.setItem('user_logged_in', 'true');
+                localStorage.setItem('user_email', email);
+                window.location.href = 'newsfeed.html';
+            } else if (email.includes('@admin')) {
+                // Admin login
+                if (password === 'admin123') {
+                    localStorage.setItem('admin_logged_in', 'true');
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    showError('Invalid admin credentials');
+                }
+            } else {
+                showError('Invalid email or password. Try demo@biniorbit.com / demo123');
+            }
+        });
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            
+            // Hide error after 5 seconds
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Check if user is already logged in
+        if (localStorage.getItem('user_logged_in') === 'true') {
+            window.location.href = 'newsfeed.html';
+        }
+    </script>
+</body>
+</html>
