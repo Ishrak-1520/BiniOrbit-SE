@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Investments - BiniOrbit</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Boxicons -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/main.css" />
+  
+  <!-- Theme System -->
+  <script src="../js/theme.js"></script>
+
+  <style>
+    /* My Investments specific styles */
+    .investments-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .investments-header {
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .investments-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .investments-stats {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      text-align: center;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .stat-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      font-weight: 500;
+    }
+
+    .investments-table-container {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .table-header {
+      background: var(--muted);
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .table-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--foreground);
+      margin: 0;
+    }
+
+    .investments-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .investments-table th,
+    .investments-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .investments-table th {
+      background: var(--muted);
+      color: var(--foreground);
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    .investments-table td {
+      color: var(--foreground);
+      font-size: 0.875rem;
+    }
+
+    .investments-table tr:hover {
+      background: var(--muted);
+    }
+
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-pending {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    .status-accepted {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .status-declined {
+      background: var(--error-bg);
+      color: var(--error);
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    .btn-primary:hover {
+      background: var(--foreground);
+      transform: translateY(-1px);
+    }
+
+    .btn-danger {
+      background: var(--error);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .btn-secondary {
+      background: var(--muted);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--border);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted-foreground);
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    .empty-state h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--foreground);
+    }
+
+    .empty-state p {
+      font-size: 0.875rem;
+      line-height: 1.5;
+      margin-bottom: 2rem;
+    }
+
+    .filter-section {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-select {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--background);
+      color: var(--foreground);
+      font-size: 0.875rem;
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .investment-details {
+      display: none;
+      background: var(--muted);
+      padding: 1rem;
+      margin-top: 0.5rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+    }
+
+    .investment-details.show {
+      display: block;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .detail-label {
+      font-weight: 500;
+      color: var(--muted-foreground);
+    }
+
+    .detail-value {
+      font-weight: 600;
+      color: var(--foreground);
+    }
+
+    @media (max-width: 768px) {
+      .investments-stats {
+        flex-direction: column;
+      }
+
+      .investments-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filter-section {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .investments-table-container {
+        overflow-x: auto;
+      }
+
+      .investments-table {
+        min-width: 600px;
+      }
+
+      .investments-table th,
+      .investments-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Sidebar -->
+  <div id="sidebar-container"></div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Search Bar -->
+    <div id="search-bar-container"></div>
+    
+    <div class="investments-container">
+      <!-- Header -->
+      <div class="investments-header">
+        <h1 class="investments-title">
+          <i class='bx bx-dollar-circle'></i>
+          My Investments
+        </h1>
+        <a href="investment.html" class="btn btn-primary">
+          <i class='bx bx-plus'></i>
+          New Investment
+        </a>
+      </div>
+
+      <!-- Statistics -->
+      <div class="investments-stats">
+        <div class="stat-card">
+          <div class="stat-value" id="totalInvestments">8</div>
+          <div class="stat-label">Total Investments</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="totalAmount">৳2,450,000</div>
+          <div class="stat-label">Total Invested</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="activeInvestments">5</div>
+          <div class="stat-label">Active Investments</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="portfolioValue">৳2,890,000</div>
+          <div class="stat-label">Portfolio Value</div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-section">
+        <label for="statusFilter" style="font-weight: 500; color: var(--foreground);">Filter by Status:</label>
+        <select id="statusFilter" class="filter-select" onchange="filterInvestments()">
+          <option value="all">All Investments</option>
+          <option value="pending">Pending</option>
+          <option value="accepted">Accepted</option>
+          <option value="declined">Declined</option>
+        </select>
+        
+        <label for="typeFilter" style="font-weight: 500; color: var(--foreground);">Filter by Type:</label>
+        <select id="typeFilter" class="filter-select" onchange="filterInvestments()">
+          <option value="all">All Types</option>
+          <option value="Strategic">Strategic</option>
+          <option value="Advisory">Advisory</option>
+        </select>
+      </div>
+
+      <!-- Investments Table -->
+      <div class="investments-table-container">
+        <div class="table-header">
+          <h2 class="table-title">Investment Portfolio</h2>
+        </div>
+        
+        <div id="investmentsTableContainer">
+          <table class="investments-table" id="investmentsTable">
+            <thead>
+              <tr>
+                <th>Business</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Equity</th>
+                <th>Valuation</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="investmentsTableBody">
+              <!-- Sample data will be populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- JavaScript -->
+  <script src="../js/chat.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/search.js"></script>
+
+  <script>
+    // Load components
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../components/sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('sidebar-container').innerHTML = html;
+        });
+
+      // Load search bar
+      fetch('../components/search-bar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('search-bar-container').innerHTML = html;
+        });
+
+      // Load investments data
+      loadInvestments();
+    });
+
+    // Sample investments data
+    const investmentsData = [
+      {
+        id: 1,
+        business: 'TechStart Solutions',
+        type: 'Strategic',
+        amount: 500000,
+        equity: 15.0,
+        valuation: 3333333,
+        status: 'accepted',
+        date: '2024-12-01',
+        created_at: '2024-12-01 10:30:00'
+      },
+      {
+        id: 2,
+        business: 'Green Energy Corp',
+        type: 'Strategic',
+        amount: 750000,
+        equity: 20.0,
+        valuation: 3750000,
+        status: 'accepted',
+        date: '2024-11-28',
+        created_at: '2024-11-28 14:15:00'
+      },
+      {
+        id: 3,
+        business: 'Digital Marketing Pro',
+        type: 'Advisory',
+        amount: 100000,
+        equity: 1.5,
+        valuation: 6666667,
+        status: 'pending',
+        date: '2024-12-10',
+        created_at: '2024-12-10 09:45:00'
+      },
+      {
+        id: 4,
+        business: 'HealthTech Innovations',
+        type: 'Strategic',
+        amount: 300000,
+        equity: 12.0,
+        valuation: 2500000,
+        status: 'accepted',
+        date: '2024-11-20',
+        created_at: '2024-11-20 16:20:00'
+      },
+      {
+        id: 5,
+        business: 'EcoFriendly Products',
+        type: 'Strategic',
+        amount: 200000,
+        equity: 8.0,
+        valuation: 2500000,
+        status: 'declined',
+        date: '2024-11-15',
+        created_at: '2024-11-15 11:30:00'
+      },
+      {
+        id: 6,
+        business: 'Smart Logistics Ltd',
+        type: 'Advisory',
+        amount: 150000,
+        equity: 2.0,
+        valuation: 7500000,
+        status: 'accepted',
+        date: '2024-11-10',
+        created_at: '2024-11-10 13:45:00'
+      },
+      {
+        id: 7,
+        business: 'FoodTech Ventures',
+        type: 'Strategic',
+        amount: 400000,
+        equity: 18.0,
+        valuation: 2222222,
+        status: 'pending',
+        date: '2024-12-08',
+        created_at: '2024-12-08 15:10:00'
+      },
+      {
+        id: 8,
+        business: 'FinTech Solutions',
+        type: 'Strategic',
+        amount: 600000,
+        equity: 25.0,
+        valuation: 2400000,
+        status: 'accepted',
+        date: '2024-11-05',
+        created_at: '2024-11-05 12:00:00'
+      }
+    ];
+
+    function loadInvestments() {
+      const tableBody = document.getElementById('investmentsTableBody');
+      
+      if (investmentsData.length === 0) {
+        document.getElementById('investmentsTableContainer').innerHTML = `
+          <div class="empty-state">
+            <i class='bx bx-dollar-circle'></i>
+            <h3>No Investments Yet</h3>
+            <p>You haven't made any investments yet. Start building your portfolio by making your first investment.</p>
+            <a href="investment.html" class="btn btn-primary">
+              <i class='bx bx-plus'></i>
+              Make First Investment
+            </a>
+          </div>
+        `;
+        return;
+      }
+
+      tableBody.innerHTML = investmentsData.map(investment => `
+        <tr data-status="${investment.status}" data-type="${investment.type}">
+          <td>
+            <strong>${investment.business}</strong>
+          </td>
+          <td>${investment.type}</td>
+          <td>৳${investment.amount.toLocaleString()}</td>
+          <td>${formatEquity(investment.equity)}%</td>
+          <td>৳${investment.valuation.toLocaleString()}</td>
+          <td>
+            <span class="status-badge status-${investment.status}">
+              ${investment.status}
+            </span>
+          </td>
+          <td>${formatDate(investment.date)}</td>
+          <td>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-secondary" onclick="toggleDetails(${investment.id})" style="padding: 0.25rem 0.5rem;">
+                <i class='bx bx-info-circle'></i>
+              </button>
+              ${investment.status === 'declined' ? 
+                `<button class="btn btn-danger" onclick="removeInvestment(${investment.id})" style="padding: 0.25rem 0.5rem;">
+                  <i class='bx bx-trash'></i>
+                </button>` : 
+                '<span style="color: var(--muted-foreground); font-size: 0.75rem;">-</span>'
+              }
+            </div>
+            <div id="details-${investment.id}" class="investment-details">
+              <div class="details-grid">
+                <div class="detail-item">
+                  <span class="detail-label">Investment ID:</span>
+                  <span class="detail-value">#${investment.id.toString().padStart(4, '0')}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Submitted:</span>
+                  <span class="detail-value">${formatDateTime(investment.created_at)}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">ROI Potential:</span>
+                  <span class="detail-value">${calculateROI(investment)}%</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Risk Level:</span>
+                  <span class="detail-value">${getRiskLevel(investment.type)}</span>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+
+      updateStatistics();
+    }
+
+    function formatEquity(value) {
+      return Math.floor(value * 10) / 10;
+    }
+
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+    }
+
+    function formatDateTime(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    function calculateROI(investment) {
+      // Mock ROI calculation based on investment type and amount
+      const baseROI = investment.type === 'Strategic' ? 15 : 8;
+      const amountFactor = investment.amount > 500000 ? 5 : 0;
+      return baseROI + amountFactor + Math.floor(Math.random() * 10);
+    }
+
+    function getRiskLevel(type) {
+      return type === 'Strategic' ? 'Medium-High' : 'Low-Medium';
+    }
+
+    function updateStatistics() {
+      const totalInvestments = investmentsData.length;
+      const totalAmount = investmentsData.reduce((sum, inv) => sum + inv.amount, 0);
+      const activeInvestments = investmentsData.filter(inv => inv.status === 'accepted').length;
+      const portfolioValue = Math.floor(totalAmount * 1.18); // Mock 18% growth
+
+      document.getElementById('totalInvestments').textContent = totalInvestments;
+      document.getElementById('totalAmount').textContent = '৳' + totalAmount.toLocaleString();
+      document.getElementById('activeInvestments').textContent = activeInvestments;
+      document.getElementById('portfolioValue').textContent = '৳' + portfolioValue.toLocaleString();
+    }
+
+    function filterInvestments() {
+      const statusFilter = document.getElementById('statusFilter').value;
+      const typeFilter = document.getElementById('typeFilter').value;
+      const rows = document.querySelectorAll('#investmentsTable tbody tr');
+
+      rows.forEach(row => {
+        const status = row.dataset.status;
+        const type = row.dataset.type;
+        
+        const statusMatch = statusFilter === 'all' || status === statusFilter;
+        const typeMatch = typeFilter === 'all' || type === typeFilter;
+        
+        if (statusMatch && typeMatch) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    function toggleDetails(investmentId) {
+      const details = document.getElementById(`details-${investmentId}`);
+      details.classList.toggle('show');
+    }
+
+    function removeInvestment(investmentId) {
+      if (confirm('Are you sure you want to remove this declined investment request?')) {
+        // Find and remove the investment from data
+        const index = investmentsData.findIndex(inv => inv.id === investmentId);
+        if (index > -1) {
+          investmentsData.splice(index, 1);
+          loadInvestments(); // Reload the table
+          
+          // Show success message
+          const alertDiv = document.createElement('div');
+          alertDiv.className = 'alert alert-success';
+          alertDiv.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 1000; background: #d1fae5; color: #065f46; border: 1px solid #10b981; padding: 1rem; border-radius: 8px; font-weight: 500;';
+          alertDiv.innerHTML = '<i class="bx bx-check-circle"></i> Investment request removed successfully';
+          document.body.appendChild(alertDiv);
+          
+          setTimeout(() => {
+            alertDiv.remove();
+          }, 3000);
+        }
+      }
+    }
+  </script>
+</body>
+</html>

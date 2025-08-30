@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investment - BiniOrbit</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Boxicons -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/main.css" />
+  
+  <!-- Theme System -->
+  <script src="../js/theme.js"></script>
+  
+  <style>
+    /* Investment specific styles */
+    .investment-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .investment-header {
+      margin-bottom: 2rem;
+    }
+
+    .investment-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--foreground);
+      margin-bottom: 0.5rem;
+    }
+
+    .investment-subtitle {
+      color: var(--muted-foreground);
+      font-size: 1rem;
+    }
+
+    .investment-card {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .investor-type-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .type-box {
+      padding: 1.5rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: var(--background);
+      position: relative;
+    }
+
+    .type-box:hover {
+      border-color: var(--primary);
+      background: var(--muted);
+    }
+
+    .type-box.selected {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    .type-box input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .type-box span {
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--foreground);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      background: var(--background);
+      color: var(--foreground);
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(43, 44, 48, 0.1);
+    }
+
+    .form-input.error {
+      border-color: var(--error);
+    }
+
+    .error-message {
+      color: var(--error);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+
+    .amount-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .amount-btn {
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--background);
+      color: var(--foreground);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .amount-btn:hover {
+      background: var(--muted);
+      border-color: var(--primary);
+    }
+
+    .amount-btn.active {
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-color: var(--primary);
+    }
+
+    .equity-section {
+      margin-bottom: 2rem;
+    }
+
+    .equity-slider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .equity-range {
+      flex: 1;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--muted);
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .equity-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .equity-range::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .equity-value {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--primary);
+      min-width: 60px;
+      text-align: center;
+    }
+
+    .disclaimer {
+      background: var(--warning-bg);
+      border: 1px solid var(--warning);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .disclaimer-title {
+      font-weight: 600;
+      color: var(--warning);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .disclaimer-text {
+      color: var(--muted-foreground);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    .submit-section {
+      text-align: center;
+    }
+
+    .btn {
+      padding: 0.75rem 2rem;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    .btn-primary:hover {
+      background: var(--foreground);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:disabled {
+      background: var(--muted);
+      color: var(--muted-foreground);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: var(--muted);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--border);
+    }
+
+    .business-preview {
+      background: var(--muted);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      font-weight: 500;
+      color: var(--foreground);
+      text-align: center;
+    }
+
+    .valuation-section {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: var(--muted);
+      border-radius: var(--radius);
+    }
+
+    .alert {
+      padding: 1rem;
+      border-radius: var(--radius);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .alert-success {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #10b981;
+    }
+
+    .alert-error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #ef4444;
+    }
+
+    @media (max-width: 768px) {
+      .investment-card {
+        padding: 1.5rem;
+      }
+
+      .investor-type-section {
+        grid-template-columns: 1fr;
+      }
+
+      .amount-buttons {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .equity-slider {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Sidebar -->
+  <div id="sidebar-container"></div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Search Bar -->
+    <div id="search-bar-container"></div>
+    
+    <div class="investment-container">
+      <!-- Alert Container -->
+      <div id="alert-container"></div>
+      
+      <div class="investment-header">
+        <h1 class="investment-title">Make an Investment</h1>
+        <p class="investment-subtitle">Connect with businesses and grow your portfolio</p>
+      </div>
+
+      <!-- Back to Newsfeed Button -->
+      <div style="margin: 2rem 0 1rem 0; text-align: left;">
+        <a href="newsfeed.html" class="btn btn-secondary">
+          <i class='bx bx-arrow-back'></i> Back to Newsfeed
+        </a>
+      </div>
+
+      <form id="investmentForm">
+        <!-- Investment Type -->
+        <div class="investment-card">
+          <h2 class="card-title">
+            <i class='bx bx-target-lock'></i>
+            Investment Type
+          </h2>
+          <p style="color: var(--muted-foreground); margin-bottom: 1.5rem;">Please select your investment type</p>
+          <div class="investor-type-section">
+            <div class="type-box" id="strategicBox" onclick="selectType('Strategic')">
+              <input type="radio" name="investor_type" id="strategicRadio" value="Strategic" required>
+              <span>Strategic</span>
+            </div>
+            <div class="type-box" id="advisoryBox" onclick="selectType('Advisory')">
+              <input type="radio" name="investor_type" id="advisoryRadio" value="Advisory" required>
+              <span>Advisory</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Business Selection -->
+        <div class="investment-card">
+          <h2 class="card-title">
+            <i class='bx bx-building'></i>
+            Business Selection
+          </h2>
+          <div class="business-preview">
+            Investing in: <span id="businessNameLabel">Select a business</span>
+          </div>
+          <div class="form-group">
+            <label for="businessInput" class="form-label">Business Name</label>
+            <input
+              type="text"
+              id="businessInput"
+              name="business_name"
+              class="form-input"
+              placeholder="Search or type a business name..."
+              list="businessList"
+              oninput="handleBusinessInput()"
+              onblur="validateBusinessName()"
+              required
+            />
+            <datalist id="businessList">
+              <option value="TechStart Solutions">
+              <option value="Green Energy Corp">
+              <option value="Digital Marketing Pro">
+              <option value="HealthTech Innovations">
+              <option value="EcoFriendly Products">
+              <option value="Smart Logistics Ltd">
+              <option value="FoodTech Ventures">
+              <option value="FinTech Solutions">
+            </datalist>
+            <div id="invalidMsg" class="error-message">
+              Please select a valid business from the suggestions
+            </div>
+          </div>
+        </div>
+
+        <!-- Investment Amount -->
+        <div class="investment-card">
+          <h2 class="card-title">
+            <i class='bx bx-money'></i>
+            Investment Amount
+          </h2>
+          <div class="form-group">
+            <label class="form-label">Quick Select Amount</label>
+            <div class="amount-buttons">
+              <button type="button" class="amount-btn" onclick="setAmount('10000')">৳10,000</button>
+              <button type="button" class="amount-btn" onclick="setAmount('20000')">৳20,000</button>
+              <button type="button" class="amount-btn" onclick="setAmount('50000')">৳50,000</button>
+              <button type="button" class="amount-btn" onclick="setAmount('100000')">৳100,000</button>
+              <button type="button" class="amount-btn" onclick="setAmount('500000')">৳500,000</button>
+              <button type="button" class="amount-btn" onclick="setAmount('1000000')">৳1,000,000</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="amountInput" class="form-label">Custom Amount</label>
+            <input
+              type="text"
+              id="amountInput"
+              name="amount"
+              class="form-input"
+              placeholder="৳ Enter amount in BDT"
+              oninput="updateValuation()"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Equity Section -->
+        <div class="investment-card">
+          <h2 class="card-title">
+            <i class='bx bx-pie-chart-alt-2'></i>
+            Equity Share
+          </h2>
+          <div class="equity-section">
+            <div class="equity-slider">
+              <input
+                type="range"
+                id="equityRange"
+                name="equity"
+                class="equity-range"
+                min="0"
+                max="100"
+                value="10"
+                step="1"
+                oninput="updateEquity()"
+              />
+              <span id="equityValue" class="equity-value">10%</span>
+            </div>
+            <p style="color: var(--muted-foreground); font-size: 0.875rem;">
+              Adjust the slider to set your desired equity percentage
+            </p>
+          </div>
+          
+          <!-- Valuation Section -->
+          <div class="valuation-section">
+            <div style="font-weight: 500; color: var(--foreground); margin-bottom: 0.25rem;">Estimated Business Valuation:</div>
+            <div id="valuationDisplay" style="font-size: 1.25rem; font-weight: 700; color: var(--primary);">৳0</div>
+            <div style="color: var(--muted-foreground); font-size: 0.85rem;">Calculated as: Investment Amount / (Equity % / 100)</div>
+          </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+          <div class="disclaimer-title">
+            <i class='bx bx-error-circle'></i>
+            Important Disclaimer
+          </div>
+          <div class="disclaimer-text">
+            Investments are subject to market risks. Please read all related documents carefully before investing. 
+            Past performance is not indicative of future results. Always consult with a financial advisor before making investment decisions.
+          </div>
+        </div>
+
+        <!-- Submit Section -->
+        <div class="submit-section">
+          <button type="submit" class="btn btn-primary" id="submitBtn">
+            <i class='bx bx-check-circle'></i>
+            Submit Investment
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- JavaScript -->
+  <script src="../js/chat.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/search.js"></script>
+
+  <script>
+    // Load components
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../components/sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('sidebar-container').innerHTML = html;
+        });
+
+      // Load search bar
+      fetch('../components/search-bar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('search-bar-container').innerHTML = html;
+        });
+
+      // Initialize form
+      updateValuation();
+      
+      // Form submission
+      document.getElementById('investmentForm').addEventListener('submit', handleFormSubmit);
+    });
+
+    let lastFetchedNames = [
+      'TechStart Solutions',
+      'Green Energy Corp',
+      'Digital Marketing Pro',
+      'HealthTech Innovations',
+      'EcoFriendly Products',
+      'Smart Logistics Ltd',
+      'FoodTech Ventures',
+      'FinTech Solutions'
+    ];
+    let selectedAmount = '';
+
+    function selectType(type) {
+      // Remove selected class from both boxes
+      document.getElementById('strategicBox').classList.remove('selected');
+      document.getElementById('advisoryBox').classList.remove('selected');
+
+      var equitySlider = document.getElementById('equityRange');
+      var equityValue = document.getElementById('equityValue');
+
+      if (type === 'Strategic') {
+        document.getElementById('strategicRadio').checked = true;
+        document.getElementById('strategicBox').classList.add('selected');
+        // Set slider for Strategic: 0-100
+        equitySlider.min = 0;
+        equitySlider.max = 100;
+        equitySlider.step = 1;
+        equitySlider.value = 10;
+        equityValue.textContent = '10%';
+      } else {
+        document.getElementById('advisoryRadio').checked = true;
+        document.getElementById('advisoryBox').classList.add('selected');
+        // Set slider for Advisory: 0-2
+        equitySlider.min = 0;
+        equitySlider.max = 2;
+        equitySlider.step = 0.1;
+        equitySlider.value = 0.5;
+        equityValue.textContent = '0.5%';
+      }
+      updateValuation();
+    }
+
+    function handleBusinessInput() {
+      const val = document.getElementById('businessInput').value.trim();
+      document.getElementById('businessNameLabel').textContent = val || "Select a business";
+
+      // Filter businesses based on input
+      const filteredNames = lastFetchedNames.filter(name => 
+        name.toLowerCase().includes(val.toLowerCase())
+      );
+      
+      populateDatalist(filteredNames);
+    }
+
+    function populateDatalist(names) {
+      const dataList = document.getElementById('businessList');
+      dataList.innerHTML = '';
+      names.forEach(name => {
+        const opt = document.createElement('option');
+        opt.value = name;
+        dataList.appendChild(opt);
+      });
+    }
+
+    function validateBusinessName() {
+      const input = document.getElementById('businessInput');
+      const invalidMsg = document.getElementById('invalidMsg');
+      const val = input.value.trim();
+
+      // if user typed something but it's not in lastFetchedNames, show error
+      if (val && !lastFetchedNames.includes(val)) {
+        invalidMsg.style.display = 'block';
+        input.classList.add('error');
+        return false;
+      } else {
+        invalidMsg.style.display = 'none';
+        input.classList.remove('error');
+        return true;
+      }
+    }
+
+    function setAmount(amt) {
+      document.getElementById('amountInput').value = amt;
+      selectedAmount = amt;
+      
+      // Update button states
+      document.querySelectorAll('.amount-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      updateValuation();
+    }
+
+    function updateEquity() {
+      const equitySlider = document.getElementById('equityRange');
+      const equityValue = document.getElementById('equityValue');
+      const type = document.getElementById('strategicRadio').checked ? 'Strategic' : 'Advisory';
+      let val = parseFloat(equitySlider.value);
+      
+      if (type === 'Strategic') {
+        equityValue.textContent = val + '%';
+      } else {
+        equityValue.textContent = val.toFixed(1) + '%';
+      }
+      updateValuation();
+    }
+
+    function updateValuation() {
+      const amountInput = document.getElementById('amountInput');
+      const equitySlider = document.getElementById('equityRange');
+      const valuationDisplay = document.getElementById('valuationDisplay');
+      
+      let amount = parseFloat(amountInput.value.replace(/[^\d.]/g, ''));
+      let equity = parseFloat(equitySlider.value);
+      
+      if (!amount || !equity || equity === 0) {
+        valuationDisplay.textContent = '৳0';
+        return;
+      }
+      
+      let valuation = amount / (equity / 100);
+      if (!isFinite(valuation) || valuation <= 0) {
+        valuationDisplay.textContent = '৳0';
+        return;
+      }
+      
+      valuationDisplay.textContent = '৳' + valuation.toLocaleString('en-BD', {maximumFractionDigits: 2});
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      
+      // Validate form
+      const investorType = document.querySelector('input[name="investor_type"]:checked');
+      const businessName = document.getElementById('businessInput').value.trim();
+      const amount = document.getElementById('amountInput').value.trim();
+      const equity = document.getElementById('equityRange').value;
+      
+      if (!investorType) {
+        showAlert('Please select an investment type', 'error');
+        return;
+      }
+      
+      if (!validateBusinessName()) {
+        showAlert('Please select a valid business from the suggestions', 'error');
+        return;
+      }
+      
+      if (!businessName) {
+        showAlert('Please select a business', 'error');
+        return;
+      }
+      
+      if (!amount) {
+        showAlert('Please enter an investment amount', 'error');
+        return;
+      }
+      
+      // Mock form submission
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> Submitting...';
+      
+      setTimeout(() => {
+        // Reset button
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="bx bx-check-circle"></i> Submit Investment';
+        
+        // Show success message
+        showAlert('Investment request submitted successfully!', 'success');
+        
+        // Reset form
+        document.getElementById('investmentForm').reset();
+        document.querySelectorAll('.type-box').forEach(box => box.classList.remove('selected'));
+        document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('businessNameLabel').textContent = 'Select a business';
+        document.getElementById('equityValue').textContent = '10%';
+        document.getElementById('valuationDisplay').textContent = '৳0';
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 2000);
+    }
+
+    function showAlert(message, type) {
+      const alertContainer = document.getElementById('alert-container');
+      const alert = document.createElement('div');
+      alert.className = `alert alert-${type}`;
+      alert.innerHTML = `
+        <i class='bx ${type === 'success' ? 'bx-check-circle' : 'bx-error-circle'}'></i>
+        ${message}
+      `;
+      
+      alertContainer.innerHTML = '';
+      alertContainer.appendChild(alert);
+      
+      // Auto-remove after 5 seconds
+      setTimeout(() => {
+        alert.remove();
+      }, 5000);
+    }
+  </script>
+</body>
+</html>
