@@ -1,0 +1,211 @@
+<!-- Universal Sidebar Component -->
+<aside class="sidebar">
+    <a href="index.html" class="logo">BiniOrbit</a>
+
+    <div class="profile">
+        <a href="profile-settings.html" class="profile-link">
+            <img src="../images/Profile_picture_placeholder.jpg" alt="Profile" class="profile-image">
+            <div class="profile-email">User Name</div>
+        </a>
+    </div>
+
+    <nav class="nav-menu">
+        <a href="newsfeed.html" class="nav-item active">
+            <i class='bx bx-news'></i>
+            Newsfeed
+        </a>
+        <a href="messenger.html" class="nav-item">
+            <i class='bx bx-message-rounded-dots'></i>
+            Messenger
+        </a>
+        <a href="#" class="nav-item" id="notificationsNav" onclick="toggleNotificationsDropdown(event)">
+            <i class='bx bx-bell'></i>
+            Notifications
+            <span class="notification-badge" id="notificationBadge" style="display:none;">0</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class='bx bx-user'></i>
+            Profile
+        </a>
+        <a href="connections.html" class="nav-item">
+            <i class='bx bx-link'></i>
+            Connections
+        </a>
+        <a href="investment.html" class="nav-item">
+            <i class='bx bx-dollar-circle'></i>
+            Investment
+        </a>
+        <a href="my-investments.html" class="nav-item">
+            <i class='bx bx-list-check'></i>
+            My Investments
+        </a>
+    </nav>
+
+    <div class="logout-container">
+        <a href="login.html" class="nav-item">
+            <i class='bx bx-log-out'></i>
+            Logout
+        </a>
+        <a href="support.html" class="support-button">
+            <i class='bx bx-support'></i>
+            Support
+        </a>
+    </div>
+
+    <div class="sidebar-theme-switcher">
+        <div class="theme-switcher-row">
+            <span class="theme-label">Theme</span>
+            <span class="theme-icon" id="themeIcon"></span>
+            <label class="theme-toggle-switch">
+                <input type="checkbox" id="themeToggleSwitch">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+</aside>
+
+<!-- Notification Dropdown -->
+<div class="notifications-overlay" id="notificationsOverlay" onclick="closeNotificationsPopup()"></div>
+<div class="notifications-dropdown" id="notificationsDropdown" style="display:none;">
+    <div class="dropdown-header">Notifications</div>
+    <div class="notifications-list" id="notificationsList">
+        <div class="loading">Loading...</div>
+    </div>
+</div>
+
+<script>
+// Notification functionality
+let notificationsLoaded = false;
+let notificationsDropdownOpen = false;
+
+function toggleNotificationsDropdown(e) {
+    if (e) e.preventDefault();
+    const dropdown = document.getElementById('notificationsDropdown');
+    const overlay = document.getElementById('notificationsOverlay');
+    notificationsDropdownOpen = !notificationsDropdownOpen;
+    dropdown.style.display = notificationsDropdownOpen ? 'block' : 'none';
+    overlay.classList.toggle('active', notificationsDropdownOpen);
+    if (notificationsDropdownOpen && !notificationsLoaded) { 
+        loadNotifications(); 
+    }
+    if (notificationsDropdownOpen) { 
+        markAllNotificationsRead(); 
+    }
+}
+
+function closeNotificationsPopup() {
+    notificationsDropdownOpen = false;
+    document.getElementById('notificationsDropdown').style.display = 'none';
+    document.getElementById('notificationsOverlay').classList.remove('active');
+}
+
+function loadNotifications() {
+    // Mock notification data for demo
+    const mockNotifications = [
+        {
+            id: 1,
+            type: 'like',
+            data: { liker_name: 'John Doe' },
+            is_read: 0,
+            created_at: new Date().toISOString()
+        },
+        {
+            id: 2,
+            type: 'comment',
+            data: { commenter_name: 'Jane Smith' },
+            is_read: 1,
+            created_at: new Date(Date.now() - 3600000).toISOString()
+        }
+    ];
+
+    const list = document.getElementById('notificationsList');
+    notificationsLoaded = true;
+    
+    if (mockNotifications.length === 0) {
+        list.innerHTML = '<div class="loading">No notifications yet.</div>';
+        document.getElementById('notificationBadge').style.display = 'none';
+    } else {
+        let unreadCount = 0;
+        list.innerHTML = mockNotifications.map(notif => {
+            if (notif.is_read == 0) unreadCount++;
+            return `<div class="notification-item${notif.is_read == 0 ? ' unread' : ''}">
+                <span class="notif-icon">${getNotifIcon(notif.type)}</span>
+                <span>${getNotifText(notif)}</span>
+                <span class="notif-time">${timeAgo(notif.created_at)}</span>
+            </div>`;
+        }).join('');
+        
+        const badge = document.getElementById('notificationBadge');
+        if (unreadCount > 0) { 
+            badge.textContent = unreadCount; 
+            badge.style.display = 'flex'; 
+        } else { 
+            badge.style.display = 'none'; 
+        }
+    }
+}
+
+function markAllNotificationsRead() {
+    // Mock function - would normally make API call
+    console.log('Marking all notifications as read');
+}
+
+function getNotifIcon(type) {
+    switch(type) {
+        case 'like': return "<i class='bx bx-like'></i>";
+        case 'comment': return "<i class='bx bx-comment'></i>";
+        case 'share': return "<i class='bx bx-share'></i>";
+        case 'investment_request': return "<i class='bx bx-dollar-circle'></i>";
+        case 'investment_accepted': return "<i class='bx bx-check-circle'></i>";
+        case 'connection_request': return "<i class='bx bx-user-plus'></i>";
+        case 'connection_accepted': return "<i class='bx bx-link'></i>";
+        default: return "<i class='bx bx-bell'></i>";
+    }
+}
+
+function getNotifText(notif) {
+    const data = notif.data || {};
+    switch(notif.type) {
+        case 'like':
+            return `${data.liker_name || 'Someone'} liked your post.`;
+        case 'comment':
+            return `${data.commenter_name || 'Someone'} commented on your post.`;
+        case 'connection_request':
+            return `${data.sender_name || 'Someone'} sent you a connection request.`;
+        case 'connection_accepted':
+            return `${data.receiver_name || 'Someone'} accepted your connection request.`;
+        case 'investment_accepted':
+            return `${data.business_name || 'A business'} accepted your investment request.`;
+        default:
+            return notif.message || 'You have a new notification.';
+    }
+}
+
+function timeAgo(timestamp) {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const seconds = Math.floor((now - date) / 1000);
+    const intervals = { 
+        year: 31536000, 
+        month: 2592000, 
+        week: 604800, 
+        day: 86400, 
+        hour: 3600, 
+        minute: 60 
+    };
+    
+    for (const [unit, secondsInUnit] of Object.entries(intervals)) {
+        const interval = Math.floor(seconds / secondsInUnit);
+        if (interval >= 1) { 
+            return `${interval} ${unit}${interval === 1 ? '' : 's'} ago`; 
+        }
+    }
+    return 'Just now';
+}
+
+// Auto-load notifications
+setInterval(() => { 
+    if (!notificationsDropdownOpen) loadNotifications(); 
+}, 30000);
+loadNotifications();
+</script>
