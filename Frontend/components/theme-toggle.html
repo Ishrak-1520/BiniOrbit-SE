@@ -1,0 +1,153 @@
+<!-- Theme Toggle Component -->
+<div class="sidebar-theme-switcher">
+    <div class="theme-switcher-row">
+        <span class="theme-label">Theme</span>
+        <span class="theme-icon" id="themeIcon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"/>
+                <path d="M12 1v2m0 18v2m11-11h-2M4 12H2m17.07 7.07-1.42-1.42M6.34 6.34 4.93 4.93m12.14 0-1.41 1.41M6.34 17.66l-1.41 1.41"/>
+            </svg>
+        </span>
+        <label class="theme-toggle-switch">
+            <input type="checkbox" id="themeToggleSwitch">
+            <span class="slider"></span>
+        </label>
+    </div>
+</div>
+
+<style>
+.sidebar-theme-switcher {
+    margin-top: 2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--border);
+    opacity: 0.7;
+    font-size: 0.98rem;
+}
+
+.theme-switcher-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.theme-label {
+    font-size: 0.97rem;
+    color: var(--muted-foreground);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.theme-toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+}
+
+.theme-toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.theme-toggle-switch .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--muted);
+    border-radius: 24px;
+    transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle-switch .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: var(--background);
+    border-radius: 50%;
+    transition: transform 0.3s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+}
+
+.theme-toggle-switch input:checked + .slider {
+    background-color: var(--primary);
+}
+
+.theme-toggle-switch input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+.theme-icon {
+    position: static;
+    margin: 0 0.5rem 0 0.5rem;
+    font-size: 1.1rem;
+    pointer-events: none;
+    color: #fbbf24;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle-switch input:checked + .slider .theme-icon {
+    color: #fff176;
+}
+
+.dark .sidebar-theme-switcher .theme-label {
+    color: #fff;
+    opacity: 0.7;
+}
+</style>
+
+<script>
+// Theme toggle functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleSwitch = document.getElementById('themeToggleSwitch');
+    const themeIcon = document.getElementById('themeIcon');
+    
+    if (!toggleSwitch || !themeIcon) return;
+
+    // Get saved theme or default to light
+    const savedTheme = localStorage.getItem('biniOrbit-theme') || 'light';
+    
+    // Set initial state
+    toggleSwitch.checked = (savedTheme === 'dark');
+    updateThemeIcon(themeIcon, savedTheme);
+    applyTheme(savedTheme);
+
+    // Handle toggle changes
+    toggleSwitch.addEventListener('change', () => {
+        const newTheme = toggleSwitch.checked ? 'dark' : 'light';
+        applyTheme(newTheme);
+        updateThemeIcon(themeIcon, newTheme);
+        localStorage.setItem('biniOrbit-theme', newTheme);
+    });
+});
+
+function applyTheme(theme) {
+    const root = document.documentElement;
+    
+    if (theme === 'dark') {
+        root.classList.add('dark');
+    } else {
+        root.classList.remove('dark');
+    }
+}
+
+function updateThemeIcon(themeIcon, theme) {
+    if (theme === 'dark') {
+        themeIcon.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>';
+    } else {
+        themeIcon.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2m11-11h-2M4 12H2m17.07 7.07-1.42-1.42M6.34 6.34 4.93 4.93m12.14 0-1.41 1.41M6.34 17.66l-1.41 1.41"/></svg>';
+    }
+}
+</script>
