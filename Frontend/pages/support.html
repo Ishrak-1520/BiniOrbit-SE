@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support - BiniOrbit</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Boxicons -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/main.css" />
+  
+  <!-- Theme System -->
+  <script src="../js/theme.js"></script>
+
+  <style>
+    /* Support specific styles */
+    .support-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .support-header {
+      margin-bottom: 2rem;
+    }
+
+    .support-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--foreground);
+      margin-bottom: 0.5rem;
+    }
+
+    .support-subtitle {
+      color: var(--muted-foreground);
+      font-size: 1rem;
+    }
+
+    .support-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .support-card {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .contact-item:last-child {
+      border-bottom: none;
+    }
+
+    .contact-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .contact-icon.email {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    .contact-icon.phone {
+      background: var(--success);
+      color: white;
+    }
+
+    .contact-info {
+      flex: 1;
+    }
+
+    .contact-label {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      margin-bottom: 0.25rem;
+    }
+
+    .contact-value {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--foreground);
+    }
+
+    .contact-value a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .contact-value a:hover {
+      text-decoration: underline;
+    }
+
+    .social-section {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .social-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .social-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .social-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--background);
+      color: var(--foreground);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .social-btn:hover {
+      background: var(--muted);
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .social-btn.linkedin {
+      border-color: #0077b5;
+      color: #0077b5;
+    }
+
+    .social-btn.linkedin:hover {
+      background: #0077b5;
+      color: white;
+    }
+
+    .social-btn.whatsapp {
+      border-color: #25d366;
+      color: #25d366;
+    }
+
+    .social-btn.whatsapp:hover {
+      background: #25d366;
+      color: white;
+    }
+
+    .social-btn.twitter {
+      border-color: #1da1f2;
+      color: #1da1f2;
+    }
+
+    .social-btn.twitter:hover {
+      background: #1da1f2;
+      color: white;
+    }
+
+    .faq-section {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .faq-item {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .faq-question {
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .faq-question:hover {
+      color: var(--primary);
+    }
+
+    .faq-answer {
+      color: var(--muted-foreground);
+      line-height: 1.6;
+      display: none;
+      padding-left: 1.5rem;
+    }
+
+    .faq-answer.show {
+      display: block;
+    }
+
+    .emergency-contact {
+      background: var(--error-bg);
+      border: 1px solid var(--error);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .emergency-title {
+      color: var(--error);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .emergency-text {
+      color: var(--muted-foreground);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .support-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .social-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .support-card, .social-section, .faq-section {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Sidebar -->
+  <div id="sidebar-container"></div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Search Bar -->
+    <div id="search-bar-container"></div>
+    
+    <div class="support-container">
+      <div class="support-header">
+        <h1 class="support-title">Support Center</h1>
+        <p class="support-subtitle">Get help and connect with our team</p>
+      </div>
+
+      <!-- Contact Information -->
+      <div class="support-grid">
+        <!-- Investors Support -->
+        <div class="support-card">
+          <h2 class="card-title">
+            <i class='bx bx-user-circle'></i>
+            Investor Support
+          </h2>
+          <div class="contact-item">
+            <div class="contact-icon email">
+              <i class='bx bx-envelope'></i>
+            </div>
+            <div class="contact-info">
+              <div class="contact-label">Email Support</div>
+              <div class="contact-value">
+                <a href="mailto:reach2inv@biniorbit.com">reach2inv@biniorbit.com</a>
+              </div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon phone">
+              <i class='bx bx-phone'></i>
+            </div>
+            <div class="contact-info">
+              <div class="contact-label">Phone Support</div>
+              <div class="contact-value">
+                <a href="tel:01224567896">01224567896</a>
+              </div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon" style="background: var(--muted); color: var(--muted-foreground);">
+              <i class='bx bx-time'></i>
+            </div>
+            <div class="contact-info">
+              <div class="contact-label">Business Hours</div>
+              <div class="contact-value">Mon-Fri: 9:00 AM - 6:00 PM</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Business Support -->
+        <div class="support-card">
+          <h2 class="card-title">
+            <i class='bx bx-building'></i>
+            Business Support
+          </h2>
+          <div class="contact-item">
+            <div class="contact-icon email">
+              <i class='bx bx-envelope'></i>
+            </div>
+            <div class="contact-info">
+              <div class="contact-label">Email Support</div>
+              <div class="contact-value">
+                <a href="mailto:reach2bus@biniorbit.com">reach2bus@biniorbit.com</a>
+              </div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon phone">
+              <i class='bx bx-phone'></i>
+            </div>
+            <div class="contact-info">
+              <div class="contact-label">Phone Support</div>
+              <div class="contact-value">
+                <a href="tel:01424567896">01424567896</a>
+              </div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon" style="background: var(--muted); color: var(--muted-foreground);">
+              <i class='bx bx-time'></i>
+            </div>
+            <div class="contact-info">
+              <div class="contact-label">Business Hours</div>
+              <div class="contact-value">Mon-Fri: 9:00 AM - 6:00 PM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Social Media -->
+      <div class="social-section">
+        <h2 class="social-title">
+          <i class='bx bx-share-alt'></i>
+          Connect With Us
+        </h2>
+        <div class="social-buttons">
+          <a href="#" class="social-btn linkedin">
+            <i class='bx bxl-linkedin'></i>
+            LinkedIn
+          </a>
+          <a href="#" class="social-btn whatsapp">
+            <i class='bx bxl-whatsapp'></i>
+            WhatsApp
+          </a>
+          <a href="#" class="social-btn twitter">
+            <i class='bx bxl-twitter'></i>
+            X (Twitter)
+          </a>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="faq-section">
+        <h2 class="card-title">
+          <i class='bx bx-help-circle'></i>
+          Frequently Asked Questions
+        </h2>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <i class='bx bx-question-mark'></i>
+            How do I create an investment?
+            <i class='bx bx-chevron-down' style="margin-left: auto;"></i>
+          </div>
+          <div class="faq-answer">
+            Navigate to the Investment page, select your investment type, choose a business, enter the amount, and submit your investment request.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <i class='bx bx-question-mark'></i>
+            How long does it take to process an investment?
+            <i class='bx bx-chevron-down' style="margin-left: auto;"></i>
+          </div>
+          <div class="faq-answer">
+            Investment processing typically takes 3-5 business days. You'll receive email notifications about the status of your investment.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <i class='bx bx-question-mark'></i>
+            Can I withdraw my investment?
+            <i class='bx bx-chevron-down' style="margin-left: auto;"></i>
+          </div>
+          <div class="faq-answer">
+            Investment withdrawal policies depend on the specific investment terms. Please contact our support team for detailed information.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <i class='bx bx-question-mark'></i>
+            How do I update my profile information?
+            <i class='bx bx-chevron-down' style="margin-left: auto;"></i>
+          </div>
+          <div class="faq-answer">
+            Go to Profile Settings to update your personal information, contact details, and account preferences.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <i class='bx bx-question-mark'></i>
+            How do I connect with other users?
+            <i class='bx bx-chevron-down' style="margin-left: auto;"></i>
+          </div>
+          <div class="faq-answer">
+            Use the search feature to find other users, then send them a connection request. Once accepted, you can message them directly.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <i class='bx bx-question-mark'></i>
+            Is my personal information secure?
+            <i class='bx bx-chevron-down' style="margin-left: auto;"></i>
+          </div>
+          <div class="faq-answer">
+            Yes, we use industry-standard encryption and security measures to protect your personal and financial information. We never share your data with third parties without your consent.
+          </div>
+        </div>
+      </div>
+
+      <!-- Emergency Contact -->
+      <div class="emergency-contact">
+        <div class="emergency-title">
+          <i class='bx bx-error-circle'></i>
+          Need Immediate Assistance?
+        </div>
+        <div class="emergency-text">
+          For urgent matters outside business hours, please send us an email and we'll respond as soon as possible. 
+          For critical issues, you can also reach us through our social media channels.
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- JavaScript -->
+  <script src="../js/chat.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/search.js"></script>
+
+  <script>
+    // Load components
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../components/sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('sidebar-container').innerHTML = html;
+        });
+
+      // Load search bar
+      fetch('../components/search-bar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('search-bar-container').innerHTML = html;
+        });
+    });
+
+    function toggleFaq(element) {
+      const answer = element.nextElementSibling;
+      const chevron = element.querySelector('.bx-chevron-down, .bx-chevron-up');
+      
+      // Toggle answer visibility
+      answer.classList.toggle('show');
+      
+      // Toggle chevron direction
+      if (answer.classList.contains('show')) {
+        chevron.className = 'bx bx-chevron-up';
+      } else {
+        chevron.className = 'bx bx-chevron-down';
+      }
+    }
+  </script>
+</body>
+</html>

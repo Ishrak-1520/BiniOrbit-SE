@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiniOrbit - Connect & Scale</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Boxicons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="../css/main.css">
+    
+    <style>
+        /* Landing page specific styles */
+        body {
+            background: linear-gradient(120deg, #120c1c 0%, #18122B 25%, #231a3a 55%, #3a2560 80%, #6a3a8c 100%);
+            background-size: 200% 200%;
+            animation: breathingGradient 18s ease-in-out infinite alternate;
+            color: #fff !important;
+        }
+        
+        @keyframes breathingGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .landing-page {
+            width: 100vw;
+            max-width: 100vw;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .landing-page .main-content {
+            margin-left: 0 !important;
+            padding: 0;
+            box-shadow: none;
+            border: none;
+            background: transparent;
+        }
+        
+        .main-header { 
+            padding: 1.2rem 3vw; 
+            background: transparent !important; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            box-shadow: none !important;
+        }
+        
+        .navbar { 
+            display: grid; 
+            grid-template-columns: 1fr auto 1fr; 
+            align-items: center; 
+            max-width: 1600px; 
+            margin: 0 auto; 
+            gap: 2rem; 
+        }
+        
+        .logo { 
+            justify-self: start; 
+        }
+        
+        .logo img { 
+            height: 40px; 
+        }
+        
+        .nav-links { 
+            justify-self: center; 
+            display: flex; 
+            gap: 2.5rem; 
+            list-style: none; 
+        }
+        
+        .nav-link {
+            color: var(--muted-foreground);
+            font-weight: 500;
+            font-size: calc(0.88rem + 8px) !important;
+            transition: color 0.2s;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .auth-group { 
+            justify-self: end; 
+            display: flex; 
+            align-items: center; 
+            gap: 0.7rem; 
+        }
+        
+        .hero-section {
+            background: #171E26; 
+            color: #fff; 
+            padding: 5rem 0 3rem 0;
+            text-align: center;
+        }
+        
+        .hero-section h1 {
+            font-family: 'Outfit', Arial, sans-serif; 
+            font-size: calc(2.7rem - 2px); 
+            font-weight: 800; 
+            line-height: 1.15; 
+            margin-bottom: 1.1em; 
+            color: #fff; 
+            letter-spacing: 0.01em; 
+            max-width: 700px; 
+            margin-left: auto; 
+            margin-right: auto;
+        }
+        
+        .hero-section h1 span {
+            color: #E53358; 
+            text-decoration: underline;
+        }
+        
+        .section-band { 
+            padding: 6rem 3vw; 
+        }
+        
+        .section-content { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            text-align: center; 
+        }
+        
+        .business-section {
+            background: #171E26 !important;
+            color: #fff !important;
+            padding-top: 4rem; 
+            padding-bottom: 4rem;
+        }
+        
+        .business-section .section-content {
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            gap: 3rem; 
+            flex-wrap: wrap;
+        }
+        
+        .section-label {
+            color: #E53358; 
+            font-weight: 700; 
+            font-size: 1.8rem; 
+            margin-bottom: 0.7em; 
+            letter-spacing: 0.01em;
+        }
+        
+        .investor-section {
+            background: #11171C !important;
+            color: #fff !important;
+            padding-top: 4rem; 
+            padding-bottom: 4rem;
+        }
+        
+        .messenger-section {
+            background: linear-gradient(180deg, #E53358 0%, #2b2c30 100%) !important;
+            color: #fff !important;
+            padding-top: 5rem; 
+            padding-bottom: 5rem;
+        }
+        
+        .join-now-btn {
+            background: #E53358 !important;
+            color: #fff !important;
+            box-shadow: none !important;
+            text-shadow: none !important;
+            border: none !important;
+            font-weight: 700;
+            transition: background 0.18s, box-shadow 0.18s;
+            margin-bottom: 2.5rem; 
+            min-width: 160px; 
+            font-size: 1.1rem; 
+            padding: 1rem 2.5rem;
+        }
+        
+        .join-now-btn:hover {
+            background: #c91d44 !important;
+            color: #fff !important;
+            box-shadow: 0 4px 32px 0 rgba(229,51,88,0.32), 0 0 0 #fff0 !important;
+        }
+        
+        .main-footer {
+            padding: 3rem 3vw; 
+            background: var(--secondary);
+        }
+        
+        .footer-content { 
+            display: flex; 
+            justify-content: space-between; 
+            max-width: 1400px; 
+            margin: 0 auto 2rem auto; 
+        }
+        
+        .footer-bottom { 
+            text-align: center; 
+            color: var(--muted-foreground); 
+            padding-top: 2rem; 
+            border-top: 1px solid var(--border); 
+            max-width: 1400px; 
+            margin: 0 auto; 
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-page">
+        <!-- Header -->
+        <header class="main-header">
+            <nav class="navbar">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="../images/BiniOrbit.png" alt="BiniOrbit Logo" />
+                    </a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#business" class="nav-link">Businesses</a></li>
+                    <li><a href="#investors" class="nav-link">Investors</a></li>
+                    <li><a href="#about" class="nav-link">About Us</a></li>
+                </ul>
+                <div class="auth-group">
+                    <a href="login.html" class="button-outline">Log In</a>
+                    <a href="signup.html" class="button">Join Now</a>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Hero Section -->
+            <section class="hero-section section-band">
+                <div class="section-content">
+                    <h1>
+                        Designed to build connections between <span>Businesses</span> and <span>Investors</span>. <br/>
+                        Scale up your <span>orbit</span>.
+                    </h1>
+                    <a href="#business" class="button button-primary join-now-btn">→ Join now</a>
+                    <img src="../images/three.png" alt="Platform Features" style="display: block; margin: 3rem auto 0 auto; width: 100%; max-width: 1100px; border-radius: 1.2em;"/>
+                </div>
+            </section>
+
+            <!-- For Businesses Section -->
+            <section class="business-section section-band" id="business">
+                <div class="section-content">
+                    <div style="flex: 1; min-width: 320px; text-align: left;">
+                        <div class="section-label">For Businesses</div>
+                        <h2 style="font-size: 3.2rem; font-weight: 800; margin-bottom: 1.2em; line-height: 1.15; color: #fff;">
+                            Build and upscale your orbit with unified platform for the best investment
+                        </h2>
+                        <a href="signup.html" class="button button-primary join-now-btn">→ Join now</a>
+                    </div>
+                    <div style="flex: 1; min-width: 320px; max-width: 380px;">
+                        <img src="../images/shikhbo.png" alt="Business Platform Preview" style="width: 100%; max-width: 340px; border-radius: 12px;" />
+                    </div>
+                </div>
+            </section>
+
+            <!-- For Investors Section -->
+            <section class="investor-section section-band" id="investors">
+                <div class="section-content" style="flex-direction: row-reverse;">
+                    <div style="flex: 1; min-width: 320px; text-align: left;">
+                        <div class="section-label">For Investors</div>
+                        <h2 style="font-size: 3.2rem; font-weight: 800; margin-bottom: 1.2em; line-height: 1.15; color: #fff;">
+                            High-quality deals and smart matches for your specific investment interests
+                        </h2>
+                        <a href="signup.html" class="button button-primary join-now-btn">→ Join now</a>
+                    </div>
+                    <div style="flex: 1; min-width: 260px; max-width: 340px;">
+                        <div class="card" style="background: #23263a; color: #fff; padding: 2.2em 1.5em; border: none;">
+                            <div style="font-weight: 700; font-size: 1.6rem; margin-bottom: 0.7em; color: #fff;">@ BiniOrbit</div>
+                            <div style="font-size: 2.4rem; font-weight: 800; color: #fff;">
+                                Total Investments<br>
+                                <span style="font-size: 3rem; color: #E53358;">3</span>
+                            </div>
+                            <div style="margin: 1.2em 0 0.5em 0; font-size: 1.6rem; color: #fff;">
+                                Total Invested<br>
+                                <span style="font-size: 2.2rem; color: #E53358;">৳400k</span>
+                            </div>
+                            <img src="../images/graph.png" alt="Investment Chart" style="width: 100%; max-width: 120px; margin: 1.2em auto 0 auto; display: block;" />
+                            <div style="font-size: 1.3rem; color: #fff; margin-top: 0.5em;">Invested Industries</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Messenger Section -->
+            <section class="messenger-section section-band" id="about">
+                <div class="section-content">
+                    <h2 style="font-size: 3.2rem; font-weight: 800; margin-bottom: 1.2em; color: #fff;">
+                        Utilize our platform
+                    </h2>
+                    <p style="font-size: 1.8rem; font-weight: 500; margin-bottom: 2.5rem; color: #fff;">
+                        Join <span style="font-weight: 700;">BiniOrbit Messenger</span> for the best communication experience
+                    </p>
+                    <div style="margin: 0 auto; max-width: 700px; border-radius: 1rem; overflow: hidden;">
+                        <img src="../images/platform_cp.png" alt="Platform Preview" style="width: 100%; display: block;" />
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <p class="footer-brand">© BiniOrbit</p>
+                </div>
+                <div class="footer-col">
+                    <h3>About Us</h3>
+                    <p><a href="mailto:info@biniorbit.co">info@biniorbit.co</a></p>
+                    <p><a href="tel:+880183068074">+880183068074</a></p>
+                    <p><a href="support.html">Support</a></p>
+                </div>
+                <div class="footer-col">
+                    <h3>Follow Us</h3>
+                    <p><a href="#">LinkedIn</a></p>
+                    <p><a href="#">WhatsApp</a></p>
+                    <p><a href="#">X (Twitter)</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <a href="terms.html">Terms and Conditions</a>
+                <span>© Copyright BiniOrbit 2024</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../js/theme.js"></script>
+</body>
+</html>
