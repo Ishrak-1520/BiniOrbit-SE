@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Profile - BiniOrbit</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Boxicons -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/main.css" />
+  
+  <!-- Theme System -->
+  <script src="../js/theme.js"></script>
+
+  <style>
+    /* User Profile specific styles */
+    .profile-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .profile-header {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 2rem;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .profile-cover {
+      height: 200px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--foreground) 100%);
+      position: relative;
+    }
+
+    .profile-avatar {
+      position: absolute;
+      bottom: -50px;
+      left: 2rem;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid var(--background);
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: var(--muted-foreground);
+      overflow: hidden;
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-info {
+      padding: 3rem 2rem 2rem;
+    }
+
+    .profile-name {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--foreground);
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-email {
+      color: var(--muted-foreground);
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .profile-stats {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--foreground);
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+
+    .profile-actions {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    .btn-primary:hover {
+      background: var(--foreground);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--muted);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--border);
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 2rem;
+    }
+
+    .main-content-area {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .sidebar-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .create-post {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .post-input {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .post-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      color: var(--muted-foreground);
+      flex-shrink: 0;
+    }
+
+    .post-textarea {
+      flex: 1;
+      min-height: 100px;
+      padding: 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      background: var(--background);
+      color: var(--foreground);
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    .post-textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(43, 44, 48, 0.1);
+    }
+
+    .post-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .media-button {
+      background: var(--muted);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .media-button:hover {
+      background: var(--border);
+    }
+
+    .media-button input[type="file"] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .submit-button {
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border: none;
+      padding: 0.5rem 1.5rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .submit-button:hover {
+      background: var(--foreground);
+      transform: translateY(-1px);
+    }
+
+    .feed-post {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .post-header-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .post-header-link img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--muted);
+    }
+
+    .post-info {
+      flex: 1;
+    }
+
+    .post-author {
+      font-weight: 600;
+      color: var(--foreground);
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .verified-badge {
+      color: var(--primary);
+    }
+
+    .post-meta {
+      color: var(--muted-foreground);
+      font-size: 0.75rem;
+    }
+
+    .post-content {
+      color: var(--foreground);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .post-image {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      margin-bottom: 1rem;
+    }
+
+    .post-interactions {
+      display: flex;
+      gap: 1rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+
+    .interaction-button {
+      background: none;
+      border: none;
+      color: var(--muted-foreground);
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .interaction-button:hover {
+      background: var(--muted);
+      color: var(--foreground);
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .info-item:last-child {
+      border-bottom: none;
+    }
+
+    .info-icon {
+      width: 1.25rem;
+      height: 1.25rem;
+      color: var(--muted-foreground);
+    }
+
+    .info-content {
+      flex: 1;
+    }
+
+    .info-label {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      margin-bottom: 0.25rem;
+    }
+
+    .info-value {
+      font-size: 0.875rem;
+      color: var(--foreground);
+      font-weight: 500;
+    }
+
+    @media (max-width: 1024px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .profile-info {
+        padding: 2rem 1.5rem 1.5rem;
+      }
+
+      .profile-avatar {
+        left: 1.5rem;
+        width: 100px;
+        height: 100px;
+        font-size: 2.5rem;
+      }
+
+      .profile-stats {
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .profile-actions {
+        flex-direction: column;
+      }
+
+      .post-actions {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Sidebar -->
+  <div id="sidebar-container"></div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Search Bar -->
+    <div id="search-bar-container"></div>
+    
+    <div class="profile-container">
+      <!-- Profile Header -->
+      <div class="profile-header">
+        <div class="profile-cover"></div>
+        <div class="profile-avatar">
+          <i class='bx bx-user'></i>
+        </div>
+        <div class="profile-info">
+          <h1 class="profile-name">John Doe</h1>
+          <p class="profile-email">john.doe@example.com</p>
+          
+          <div class="profile-stats">
+            <div class="stat-item">
+              <div class="stat-number">12</div>
+              <div class="stat-label">Posts</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">45</div>
+              <div class="stat-label">Connections</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">8</div>
+              <div class="stat-label">Investments</div>
+            </div>
+          </div>
+          
+          <div class="profile-actions">
+            <a href="profile-settings.html" class="btn btn-primary">
+              <i class='bx bx-edit-alt'></i>
+              Edit Profile
+            </a>
+            <a href="investments.html" class="btn btn-secondary">
+              <i class='bx bx-dollar-circle'></i>
+              View Investments
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content Grid -->
+      <div class="content-grid">
+        <!-- Main Content Area -->
+        <div class="main-content-area">
+          <!-- Create Post -->
+          <div class="create-post">
+            <div class="post-input">
+              <div class="post-avatar">
+                <i class='bx bx-user'></i>
+              </div>
+              <textarea class="post-textarea" placeholder="Share your thoughts..." id="profilePostContent"></textarea>
+            </div>
+            <div class="post-actions">
+              <button class="media-button">
+                <i class='bx bx-image'></i>
+                Add Media
+                <input type="file" accept="image/*,video/*" multiple>
+              </button>
+              <button class="submit-button" onclick="createProfilePost()">
+                <i class='bx bx-send'></i>
+                Post
+              </button>
+            </div>
+          </div>
+
+          <!-- Posts Feed -->
+          <div class="feed-container" id="profilePostsContainer">
+            <!-- Sample User Posts -->
+            <div class="feed-post" data-post-id="user1">
+              <div class="post-header">
+                <a href="#" class="post-header-link">
+                  <img src="../images/Profile_picture_placeholder.jpg" alt="Profile" class="post-avatar">
+                  <div class="post-info">
+                    <div class="post-author">John Doe</div>
+                    <div class="post-meta">December 10, 2024</div>
+                  </div>
+                </a>
+              </div>
+              <div class="post-content">
+                Just completed my first investment through BiniOrbit! Excited to be part of this innovative startup's journey. The platform makes it so easy to connect with promising businesses.
+              </div>
+              <div class="post-interactions">
+                <button class="interaction-button like-button">
+                  <i class='bx bx-like'></i>
+                  <span>Like</span>
+                  <span class="counter">15</span>
+                </button>
+                <button class="interaction-button comment-button">
+                  <i class='bx bx-comment'></i>
+                  <span>Comment</span>
+                  <span class="comment-count">3</span>
+                </button>
+                <button class="interaction-button share-button">
+                  <i class='bx bx-share'></i>
+                  <span>Share</span>
+                  <span class="counter">2</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="feed-post" data-post-id="user2">
+              <div class="post-header">
+                <a href="#" class="post-header-link">
+                  <img src="../images/Profile_picture_placeholder.jpg" alt="Profile" class="post-avatar">
+                  <div class="post-info">
+                    <div class="post-author">John Doe</div>
+                    <div class="post-meta">December 8, 2024</div>
+                  </div>
+                </a>
+              </div>
+              <div class="post-content">
+                Looking forward to the BiniOrbit networking event next week! Great opportunity to meet fellow investors and entrepreneurs. Who else is attending?
+              </div>
+              <div class="post-image-container">
+                <img src="https://via.placeholder.com/600x300/2374e1/ffffff?text=Networking+Event" alt="Post image" class="post-image">
+              </div>
+              <div class="post-interactions">
+                <button class="interaction-button like-button">
+                  <i class='bx bx-like'></i>
+                  <span>Like</span>
+                  <span class="counter">22</span>
+                </button>
+                <button class="interaction-button comment-button">
+                  <i class='bx bx-comment'></i>
+                  <span>Comment</span>
+                  <span class="comment-count">7</span>
+                </button>
+                <button class="interaction-button share-button">
+                  <i class='bx bx-share'></i>
+                  <span>Share</span>
+                  <span class="counter">4</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar Content -->
+        <div class="sidebar-content">
+          <!-- Profile Information -->
+          <div class="card">
+            <h3 class="card-title">
+              <i class='bx bx-info-circle'></i>
+              Profile Information
+            </h3>
+            <div class="info-item">
+              <i class='bx bx-envelope info-icon'></i>
+              <div class="info-content">
+                <div class="info-label">Email</div>
+                <div class="info-value">john.doe@example.com</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class='bx bx-calendar info-icon'></i>
+              <div class="info-content">
+                <div class="info-label">Member Since</div>
+                <div class="info-value">January 2024</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class='bx bx-map info-icon'></i>
+              <div class="info-content">
+                <div class="info-label">Location</div>
+                <div class="info-value">New York, USA</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity Summary -->
+          <div class="card">
+            <h3 class="card-title">
+              <i class='bx bx-activity'></i>
+              Activity Summary
+            </h3>
+            <div class="info-item">
+              <i class='bx bx-message-rounded info-icon'></i>
+              <div class="info-content">
+                <div class="info-label">Comments</div>
+                <div class="info-value">24</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class='bx bx-heart info-icon'></i>
+              <div class="info-content">
+                <div class="info-label">Likes Received</div>
+                <div class="info-value">156</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class='bx bx-share info-icon'></i>
+              <div class="info-content">
+                <div class="info-label">Shares</div>
+                <div class="info-value">12</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Investment Summary -->
+          <div class="card">
+            <h3 class="card-title">
+              <i class='bx bx-trending-up'></i>
+              Investment Summary
+            </h3>
+            <div class="info-item">
+              <i class='bx bx-dollar-circle info-icon'></i>
+              <div class="info-content">
+                <div class="info-label">Total Invested</div>
+                <div class="info-value">$125,000</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class='bx bx-building info-icon'></i>
+              <div class="info-content">
+                <div class="info-label">Active Investments</div>
+                <div class="info-value">8</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class='bx bx-chart info-icon'></i>
+              <div class="info-content">
+                <div class="info-label">Portfolio Value</div>
+                <div class="info-value">$142,500</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- JavaScript -->
+  <script src="../js/chat.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/search.js"></script>
+
+  <script>
+    // Load components
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../components/sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('sidebar-container').innerHTML = html;
+        });
+
+      // Load search bar
+      fetch('../components/search-bar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('search-bar-container').innerHTML = html;
+        });
+
+      // Initialize interactions
+      initializeProfileInteractions();
+    });
+
+    function initializeProfileInteractions() {
+      // Setup like button event listeners
+      document.querySelectorAll('.like-button').forEach(button => {
+        button.addEventListener('click', handleLike);
+      });
+    }
+
+    function createProfilePost() {
+      const content = document.getElementById('profilePostContent').value.trim();
+      
+      if (!content) {
+        alert('Please enter some content');
+        return;
+      }
+
+      // Mock post creation
+      const newPost = {
+        id: 'user' + Date.now(),
+        author: 'John Doe',
+        content: content,
+        timestamp: new Date().toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        }),
+        likes: 0,
+        comments: 0,
+        shares: 0
+      };
+
+      // Add to feed
+      addPostToProfileFeed(newPost);
+
+      // Clear form
+      document.getElementById('profilePostContent').value = '';
+    }
+
+    function addPostToProfileFeed(post) {
+      const postsContainer = document.getElementById('profilePostsContainer');
+      const postElement = document.createElement('div');
+      postElement.className = 'feed-post';
+      postElement.dataset.postId = post.id;
+      postElement.innerHTML = `
+        <div class="post-header">
+          <a href="#" class="post-header-link">
+            <img src="../images/Profile_picture_placeholder.jpg" alt="Profile" class="post-avatar">
+            <div class="post-info">
+              <div class="post-author">${post.author}</div>
+              <div class="post-meta">${post.timestamp}</div>
+            </div>
+          </a>
+        </div>
+        
+        <div class="post-content">
+          ${post.content}
+        </div>
+
+        <div class="post-interactions">
+          <button class="interaction-button like-button">
+            <i class='bx bx-like'></i>
+            <span>Like</span>
+            <span class="counter">${post.likes}</span>
+          </button>
+          <button class="interaction-button comment-button">
+            <i class='bx bx-comment'></i>
+            <span>Comment</span>
+            <span class="comment-count">${post.comments}</span>
+          </button>
+          <button class="interaction-button share-button">
+            <i class='bx bx-share'></i>
+            <span>Share</span>
+            <span class="counter">${post.shares}</span>
+          </button>
+        </div>
+      `;
+      
+      postsContainer.insertBefore(postElement, postsContainer.firstChild);
+      
+      // Add event listener to new like button
+      postElement.querySelector('.like-button').addEventListener('click', handleLike);
+    }
+
+    function handleLike(event) {
+      const button = event.currentTarget;
+      let counter = button.querySelector('.counter');
+      const icon = button.querySelector('i');
+      
+      // Toggle like state
+      const isLiked = button.classList.toggle('liked');
+      
+      // Update icon
+      icon.className = isLiked ? 'bx bxs-like' : 'bx bx-like';
+      
+      // Update counter
+      let currentCount = parseInt(counter.textContent);
+      counter.textContent = isLiked ? currentCount + 1 : currentCount - 1;
+    }
+  </script>
+</body>
+</html>

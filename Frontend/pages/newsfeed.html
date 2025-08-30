@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BiniOrbit Social</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/main.css" />
+  
+  <!-- Theme System -->
+  <script src="../js/theme.js"></script>
+
+  <style>
+    /* Newsfeed specific styles */
+    .feed-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    .create-post-card {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .create-post-header {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .create-post-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--accent);
+    }
+
+    .create-post-input-container {
+      flex: 1;
+    }
+
+    .create-post-input {
+      width: 100%;
+      min-height: 80px;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--background);
+      color: var(--foreground);
+      font-family: inherit;
+      font-size: 1rem;
+      resize: vertical;
+      margin-bottom: 1rem;
+    }
+
+    .create-post-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(43, 44, 48, 0.1);
+    }
+
+    .create-post-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .create-post-action-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--background);
+      color: var(--foreground);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.875rem;
+    }
+
+    .create-post-action-btn:hover {
+      background: var(--muted);
+      border-color: var(--primary);
+    }
+
+    .create-post-submit-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1.5rem;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .create-post-submit-btn:hover {
+      background: var(--foreground);
+      transform: translateY(-1px);
+    }
+
+    .feed-post {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow);
+      transition: all 0.2s ease;
+    }
+
+    .feed-post:hover {
+      box-shadow: 0 8px 32px rgba(43, 44, 48, 0.15);
+    }
+
+    .post-header {
+      margin-bottom: 1rem;
+    }
+
+    .post-header-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .post-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--accent);
+    }
+
+    .post-info {
+      flex: 1;
+    }
+
+    .post-author {
+      font-weight: 600;
+      color: var(--foreground);
+      font-size: 0.95rem;
+    }
+
+    .post-meta {
+      color: var(--muted-foreground);
+      font-size: 0.8rem;
+    }
+
+    .post-content {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+      color: var(--foreground);
+    }
+
+    .post-image-container {
+      margin-bottom: 1rem;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .post-image {
+      width: 100%;
+      max-height: 500px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .post-interactions {
+      display: flex;
+      gap: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .interaction-button {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: none;
+      border: none;
+      color: var(--muted-foreground);
+      cursor: pointer;
+      border-radius: var(--radius);
+      transition: all 0.2s ease;
+      font-size: 0.875rem;
+    }
+
+    .interaction-button:hover {
+      background: var(--muted);
+      color: var(--foreground);
+    }
+
+    .interaction-button.liked {
+      color: var(--error);
+    }
+
+    .interaction-button.liked i {
+      color: var(--error);
+    }
+
+    .counter {
+      font-weight: 500;
+      color: var(--muted-foreground);
+    }
+
+    .comments-section {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      display: none;
+    }
+
+    .comments-section.show-comments {
+      display: block;
+    }
+
+    .comment-input-container {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .comment-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--accent);
+    }
+
+    .comment-input {
+      flex: 1;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--background);
+      color: var(--foreground);
+      font-family: inherit;
+      font-size: 0.875rem;
+      resize: none;
+      min-height: 40px;
+    }
+
+    .comment-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .comment-submit {
+      padding: 0.75rem;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .comment-submit:hover {
+      background: var(--foreground);
+    }
+
+    .comments-list {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .comment-item {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .comment-item:last-child {
+      border-bottom: none;
+    }
+
+    .comment-content {
+      flex: 1;
+    }
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .comment-author {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--foreground);
+    }
+
+    .comment-time {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+    }
+
+    .comment-text {
+      font-size: 0.875rem;
+      color: var(--foreground);
+      line-height: 1.4;
+    }
+
+    .comment-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .comment-action {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .comment-action:hover {
+      color: var(--primary);
+    }
+
+    .no-posts-card {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .no-posts-card i {
+      font-size: 3rem;
+      color: var(--muted-foreground);
+      margin-bottom: 1rem;
+    }
+
+    .no-posts-card h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 0.5rem;
+    }
+
+    .no-posts-card p {
+      color: var(--muted-foreground);
+      font-size: 1rem;
+    }
+
+    /* Share Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      z-index: 1000;
+    }
+
+    .share-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      display: none;
+      z-index: 1001;
+      min-width: 400px;
+    }
+
+    .share-modal h3 {
+      margin-bottom: 1.5rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+
+    .share-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .share-option {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--foreground);
+    }
+
+    .share-option:hover {
+      background: var(--muted);
+      border-color: var(--primary);
+    }
+
+    .share-option i {
+      font-size: 1.25rem;
+    }
+
+    .modal-close {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--muted);
+      color: var(--foreground);
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close:hover {
+      background: var(--border);
+    }
+
+    @media (max-width: 768px) {
+      .feed-container {
+        padding: 0 1rem;
+      }
+
+      .create-post-actions {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .post-interactions {
+        flex-wrap: wrap;
+      }
+
+      .share-modal {
+        min-width: 90%;
+        margin: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Sidebar -->
+  <div id="sidebar-container"></div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Search Bar -->
+    <div id="search-bar-container"></div>
+    
+    <div class="feed-container">
+      <!-- Create Post Section -->
+      <div class="create-post-card">
+        <div class="create-post-header">
+          <img src="../images/Profile_picture_placeholder.jpg" alt="Profile" class="create-post-avatar">
+          <div class="create-post-input-container">
+            <textarea class="create-post-input" placeholder="What's on your mind?" id="postContent"></textarea>
+            <div class="create-post-actions">
+              <label for="postImage" class="create-post-action-btn" style="display: inline-flex; align-items: center;">
+                <i class='bx bx-image'></i>
+                <span>Add Image</span>
+                <input type="file" id="postImage" accept="image/*" style="display: none;">
+              </label>
+              <span id="image-added-indicator" style="display:none; color: #2374e1; font-weight: 500; margin-left: 6px; vertical-align: left;">+ Image added</span>
+              <button class="create-post-submit-btn" onclick="createPost()">
+                <i class='bx bx-send'></i>
+                Post
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Posts Feed -->
+      <div id="posts-container">
+        <!-- Sample Posts -->
+        <div class="feed-post" data-post-id="1" data-user-email="john@example.com">
+          <div class="post-header">
+            <a href="#" class="post-header-link">
+              <img src="../images/Profile_picture_placeholder.jpg" alt="Profile" class="post-avatar">
+              <div class="post-info">
+                <div class="post-author">John Doe</div>
+                <div class="post-meta">Dec 15, 2024 2:30 PM</div>
+              </div>
+            </a>
+          </div>
+          
+          <div class="post-content">
+            Excited to announce our new investment opportunity! Looking for strategic partners to help us scale our innovative tech solution.
+          </div>
+          
+          <div class="post-image-container">
+            <img src="https://via.placeholder.com/600x300/2374e1/ffffff?text=Investment+Opportunity" alt="Post image" class="post-image">
+          </div>
+
+          <div class="post-interactions">
+            <button class="interaction-button like-button" data-post-id="1">
+              <i class='bx bx-like'></i> 
+              <span>Like</span>
+              <span class="counter">12</span>
+            </button>
+            <button class="interaction-button comment-button" onclick="toggleComments(this)">
+              <i class='bx bx-comment'></i> 
+              <span>Comment</span>
+              <span class="comment-count">3</span>
+            </button>
+            <button class="interaction-button share-button" onclick="openShareModal(1)">
+              <i class='bx bx-share'></i> 
+              <span>Share</span>
+              <span class="counter">2</span>
+            </button>
+          </div>
+
+          <div class="comments-section">
+            <div class="comment-input-container">
+              <img src="../images/Profile_picture_placeholder.jpg" alt="Profile" class="comment-avatar">
+              <textarea class="comment-input" placeholder="Write a comment..."></textarea>
+              <button class="comment-submit" onclick="submitComment(this)">
+                <i class='bx bx-send'></i>
+              </button>
+            </div>
+            <div class="comments-list"></div>
+          </div>
+        </div>
+
+        <div class="feed-post" data-post-id="2" data-user-email="jane@example.com">
+          <div class="post-header">
+            <a href="#" class="post-header-link">
+              <img src="../images/Profile_picture_placeholder.jpg" alt="Profile" class="post-avatar">
+              <div class="post-info">
+                <div class="post-author">Jane Smith</div>
+                <div class="post-meta">Dec 14, 2024 10:15 AM</div>
+              </div>
+            </a>
+          </div>
+          
+          <div class="post-content">
+            Just closed our Series A funding round! Thank you to all our investors who believed in our vision. Exciting times ahead! 🚀
+          </div>
+
+          <div class="post-interactions">
+            <button class="interaction-button like-button" data-post-id="2">
+              <i class='bx bx-like'></i> 
+              <span>Like</span>
+              <span class="counter">28</span>
+            </button>
+            <button class="interaction-button comment-button" onclick="toggleComments(this)">
+              <i class='bx bx-comment'></i> 
+              <span>Comment</span>
+              <span class="comment-count">8</span>
+            </button>
+            <button class="interaction-button share-button" onclick="openShareModal(2)">
+              <i class='bx bx-share'></i> 
+              <span>Share</span>
+              <span class="counter">5</span>
+            </button>
+          </div>
+
+          <div class="comments-section">
+            <div class="comment-input-container">
+              <img src="../images/Profile_picture_placeholder.jpg" alt="Profile" class="comment-avatar">
+              <textarea class="comment-input" placeholder="Write a comment..."></textarea>
+              <button class="comment-submit" onclick="submitComment(this)">
+                <i class='bx bx-send'></i>
+              </button>
+            </div>
+            <div class="comments-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Share Modal -->
+  <div class="modal-overlay" id="modalOverlay"></div>
+  <div class="share-modal" id="shareModal">
+    <h3>Share this post</h3>
+    <div class="share-options">
+      <div class="share-option" onclick="sharePost('facebook')">
+        <i class='bx bxl-facebook-square'></i> Share to Facebook
+      </div>
+      <div class="share-option" onclick="sharePost('twitter')">
+        <i class='bx bxl-twitter'></i> Share to Twitter
+      </div>
+      <div class="share-option" onclick="sharePost('linkedin')">
+        <i class='bx bxl-linkedin-square'></i> Share to LinkedIn
+      </div>
+      <div class="share-option" onclick="sharePost('email')">
+        <i class='bx bx-envelope'></i> Share via Email
+      </div>
+      <div class="share-option" onclick="sharePost('copy')">
+        <i class='bx bx-link'></i> Copy Link
+      </div>
+    </div>
+    <button class="modal-close" onclick="closeShareModal()">Cancel</button>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="../js/chat.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/search.js"></script>
+
+  <script>
+    // Load components
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load sidebar
+      fetch('../components/sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('sidebar-container').innerHTML = html;
+        });
+
+      // Load search bar
+      fetch('../components/search-bar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('search-bar-container').innerHTML = html;
+        });
+
+      // Initialize post interactions
+      initializePostInteractions();
+    });
+
+    // Mock current user data
+    const currentUser = {
+      id: 'user123',
+      type: 'investor',
+      name: 'Current User',
+      email: 'user@example.com'
+    };
+
+    function initializePostInteractions() {
+      // Setup like button event listeners
+      document.querySelectorAll('.like-button').forEach(button => {
+        button.addEventListener('click', handleLike);
+      });
+
+      // Load comments for each post
+      document.querySelectorAll('.feed-post').forEach(post => {
+        const postId = post.dataset.postId;
+        loadComments(postId);
+      });
+
+      // Show '+ Image added' indicator when a file is selected
+      const postImageInput = document.getElementById('postImage');
+      const imageAddedIndicator = document.getElementById('image-added-indicator');
+      if (postImageInput && imageAddedIndicator) {
+        postImageInput.addEventListener('change', function() {
+          if (postImageInput.files && postImageInput.files.length > 0) {
+            imageAddedIndicator.style.display = 'inline-block';
+          } else {
+            imageAddedIndicator.style.display = 'none';
+          }
+        });
+      }
+    }
+
+    // Create new post
+    function createPost() {
+      const content = document.getElementById('postContent').value.trim();
+      const imageFile = document.getElementById('postImage').files[0];
+      
+      if (!content && !imageFile) {
+        alert('Please enter some content or select an image');
+        return;
+      }
+
+      // Mock post creation
+      const newPost = {
+        id: Date.now(),
+        author: currentUser.name,
+        content: content,
+        timestamp: new Date().toLocaleString(),
+        likes: 0,
+        comments: 0,
+        shares: 0
+      };
+
+      // Add to feed (in real app, this would be sent to server)
+      addPostToFeed(newPost);
+
+      // Clear form
+      document.getElementById('postContent').value = '';
+      document.getElementById('postImage').value = '';
+      const imageAddedIndicator = document.getElementById('image-added-indicator');
+      if (imageAddedIndicator) imageAddedIndicator.style.display = 'none';
+    }
+
+    function addPostToFeed(post) {
+      const postsContainer = document.getElementById('posts-container');
+      const postElement = document.createElement('div');
+      postElement.className = 'feed-post';
+      postElement.dataset.postId = post.id;
+      postElement.innerHTML = `
+        <div class="post-header">
+          <a href="#" class="post-header-link">
+            <img src="../images/Profile_picture_placeholder.jpg" alt="Profile" class="post-avatar">
+            <div class="post-info">
+              <div class="post-author">${post.author}</div>
+              <div class="post-meta">${post.timestamp}</div>
+            </div>
+          </a>
+        </div>
+        
+        <div class="post-content">
+          ${post.content}
+        </div>
+
+        <div class="post-interactions">
+          <button class="interaction-button like-button" data-post-id="${post.id}">
+            <i class='bx bx-like'></i> 
+            <span>Like</span>
+            <span class="counter">${post.likes}</span>
+          </button>
+          <button class="interaction-button comment-button" onclick="toggleComments(this)">
+            <i class='bx bx-comment'></i> 
+            <span>Comment</span>
+            <span class="comment-count">${post.comments}</span>
+          </button>
+          <button class="interaction-button share-button" onclick="openShareModal(${post.id})">
+            <i class='bx bx-share'></i> 
+            <span>Share</span>
+            <span class="counter">${post.shares}</span>
+          </button>
+        </div>
+
+        <div class="comments-section">
+          <div class="comment-input-container">
+            <img src="../images/Profile_picture_placeholder.jpg" alt="Profile" class="comment-avatar">
+            <textarea class="comment-input" placeholder="Write a comment..."></textarea>
+            <button class="comment-submit" onclick="submitComment(this)">
+              <i class='bx bx-send'></i>
+            </button>
+          </div>
+          <div class="comments-list"></div>
+        </div>
+      `;
+      
+      postsContainer.insertBefore(postElement, postsContainer.firstChild);
+      
+      // Add event listener to new like button
+      postElement.querySelector('.like-button').addEventListener('click', handleLike);
+    }
+
+    // Handle like button clicks
+    function handleLike(event) {
+      const button = event.currentTarget;
+      const postId = button.getAttribute('data-post-id');
+      let counter = button.querySelector('.counter');
+      const icon = button.querySelector('i');
+      
+      // Toggle like state
+      const isLiked = button.classList.toggle('liked');
+      
+      // Update icon
+      icon.className = isLiked ? 'bx bxs-like' : 'bx bx-like';
+      
+      // Update counter
+      let currentCount = parseInt(counter.textContent);
+      counter.textContent = isLiked ? currentCount + 1 : currentCount - 1;
+    }
+
+    function toggleComments(button) {
+      const post = button.closest('.feed-post');
+      const commentsSection = post.querySelector('.comments-section');
+      commentsSection.classList.toggle('show-comments');
+      
+      // Load comments if section is being shown
+      if (commentsSection.classList.contains('show-comments')) {
+        const postId = post.dataset.postId;
+        loadComments(postId);
+      }
+    }
+
+    function submitComment(button) {
+      const post = button.closest('.feed-post');
+      const postId = post.dataset.postId;
+      const textarea = post.querySelector('.comment-input');
+      const commentText = textarea.value.trim();
+
+      if (commentText) {
+        // Mock comment submission
+        const newComment = {
+          id: Date.now(),
+          author: currentUser.name,
+          content: commentText,
+          timestamp: new Date().toLocaleString()
+        };
+
+        // Store in localStorage for demo
+        let comments = JSON.parse(localStorage.getItem('comments') || '{}');
+        if (!comments[postId]) comments[postId] = [];
+        comments[postId].push(newComment);
+        localStorage.setItem('comments', JSON.stringify(comments));
+
+        textarea.value = '';
+        loadComments(postId);
+        
+        // Update comment count
+        const commentCount = post.querySelector('.comment-count');
+        commentCount.textContent = parseInt(commentCount.textContent) + 1;
+      }
+    }
+
+    function loadComments(postId) {
+      const comments = JSON.parse(localStorage.getItem('comments') || '{}')[postId] || [];
+      const postElement = document.querySelector(`[data-post-id="${postId}"]`);
+      const commentsList = postElement.querySelector('.comments-list');
+      
+      if (commentsList) {
+        commentsList.innerHTML = comments.map(comment => `
+          <div class="comment-item">
+            <img src="../images/Profile_picture_placeholder.jpg" alt="Profile" class="comment-avatar">
+            <div class="comment-content">
+              <div class="comment-header">
+                <span class="comment-author">${comment.author}</span>
+                <span class="comment-time">${timeAgo(comment.timestamp)}</span>
+              </div>
+              <div class="comment-text">${comment.content}</div>
+              <div class="comment-actions">
+                <span class="comment-action">Like</span>
+                <span class="comment-action">Reply</span>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function timeAgo(timestamp) {
+      const date = new Date(timestamp);
+      const now = new Date();
+      const seconds = Math.floor((now - date) / 1000);
+
+      const intervals = {
+        year: 31536000,
+        month: 2592000,
+        week: 604800,
+        day: 86400,
+        hour: 3600,
+        minute: 60
+      };
+
+      for (const [unit, secondsInUnit] of Object.entries(intervals)) {
+        const interval = Math.floor(seconds / secondsInUnit);
+        if (interval >= 1) {
+          return `${interval} ${unit}${interval === 1 ? '' : 's'} ago`;
+        }
+      }
+      return 'Just now';
+    }
+
+    let currentSharePostId = null;
+
+    function openShareModal(postId) {
+      currentSharePostId = postId;
+      document.getElementById('modalOverlay').style.display = 'block';
+      document.getElementById('shareModal').style.display = 'block';
+    }
+
+    function closeShareModal() {
+      document.getElementById('modalOverlay').style.display = 'none';
+      document.getElementById('shareModal').style.display = 'none';
+      currentSharePostId = null;
+    }
+
+    function sharePost(platform) {
+      const postUrl = `${window.location.origin}/post/${currentSharePostId}`;
+      
+      switch(platform) {
+        case 'facebook':
+          window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`);
+          break;
+        case 'twitter':
+          window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(postUrl)}`);
+          break;
+        case 'linkedin':
+          window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`);
+          break;
+        case 'email':
+          window.location.href = `mailto:?subject=Check out this post&body=${encodeURIComponent(postUrl)}`;
+          break;
+        case 'copy':
+          navigator.clipboard.writeText(postUrl).then(() => {
+            alert('Link copied to clipboard!');
+          });
+          break;
+      }
+      
+      closeShareModal();
+    }
+
+    // Close modal when clicking overlay
+    document.getElementById('modalOverlay').addEventListener('click', closeShareModal);
+  </script>
+</body>
+</html>
